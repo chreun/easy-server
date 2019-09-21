@@ -1,0 +1,15 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    },
+    "require": {
+        "easyswoole/easyswoole": "3.x",
+        "ext-json": "*",
+        "easyswoole/redis-pool": "^1.0",
+        "easyswoole/mysqli-pool": "^1.0",
+        "ext-redis": "*",
+        "owner888/phpspider": "^2.1"
+    }
+}
