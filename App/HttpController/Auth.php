@@ -82,12 +82,6 @@ class Auth extends Base
 
     public function upload(){
         global $baseDir;
-        $this->response()->withHeader('access-control-allow-credentials','true');
-        $this->response()->withHeader('access-control-allow-origin','http://127.0.0.1:8080');
-        $this->response()->withHeader('access-control-expose-headers','Location');
-        if($this->request()->getMethod() != 'POST') {
-            return $this->outData(0, '');
-        }
         $file = $this->request()->getUploadedFile('file');
         $ext = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
         $detFile = uniqid() . '.' . $ext;
