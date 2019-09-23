@@ -16,7 +16,6 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
     public static $prefixLengthsPsr4 = array (
         'p' => 
         array (
-            'phpspider\\' => 10,
             'phpDocumentor\\Reflection\\' => 25,
         ),
         'W' => 
@@ -78,10 +77,6 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
     );
 
     public static $prefixDirsPsr4 = array (
-        'phpspider\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/owner888/phpspider',
-        ),
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',

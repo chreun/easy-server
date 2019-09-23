@@ -10,7 +10,6 @@
         "easyswoole/redis-pool": "^1.0",
         "easyswoole/mysqli-pool": "^1.0",
         "ext-redis": "*",
-        "owner888/phpspider": "^2.1",
         "easyswoole/wechat": "^1.0"
     }
 }
