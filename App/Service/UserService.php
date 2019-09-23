@@ -18,7 +18,8 @@ class UserService extends BaseService
 
     public static function addUser($data){
         $data['create_at'] = self::localtime();
-        $data['user_type'] = self::USER_TYPE_COMMON;
+        $data['user_type'] = self::USER_TYPE_VIRTUAL;
+        $data['password'] = password_hash(123456, PASSWORD_BCRYPT);;
         $insert_id = self::db()->insert(self::TABLE_NAME, $data);
         return $insert_id;
     }

@@ -102,8 +102,7 @@ class BaseService
      * @throws
      */
     public static function paginate($page, $columns = '*'){
-
-        return self::db()->get(static::TABLE_NAME,
+        return self::db()->orderBy('id', 'desc')->get(static::TABLE_NAME,
             [($page-1)* self::PAGE_SIZE, self::PAGE_SIZE], $columns);
 
     }

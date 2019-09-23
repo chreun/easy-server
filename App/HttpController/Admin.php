@@ -10,7 +10,7 @@ class Admin extends Base
 
     protected $needAdmin = true;
 
-    public function userLists(){
+    public function userList(){
         $page = $this->queryParam("page", 1);
         $data['list'] = UserService::paginate($page);
         $data['page'] = $page;

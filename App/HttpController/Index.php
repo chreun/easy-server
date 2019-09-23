@@ -19,7 +19,7 @@ class Index extends Base
             'prove' => DbStruct::prove(),
             'dynamic' => DbStruct::dynamic(),
         ];
-        return $this->response()->write(DbStruct::dynamic());
+        return $this->response()->write(json_encode($this->request()->getHeaders()));
     }
 
 }
