@@ -42,6 +42,7 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
         ),
         'E' => 
         array (
+            'EasySwoole\\WeChat\\' => 18,
             'EasySwoole\\Validate\\' => 20,
             'EasySwoole\\Utility\\' => 19,
             'EasySwoole\\Trigger\\' => 19,
@@ -53,6 +54,8 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
             'EasySwoole\\MysqliPool\\' => 22,
             'EasySwoole\\Log\\' => 15,
             'EasySwoole\\Http\\' => 16,
+            'EasySwoole\\HttpClient\\Test\\' => 27,
+            'EasySwoole\\HttpClient\\' => 22,
             'EasySwoole\\EasySwoole\\' => 22,
             'EasySwoole\\Config\\Test\\' => 23,
             'EasySwoole\\Config\\' => 18,
@@ -121,6 +124,10 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
+        'EasySwoole\\WeChat\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/easyswoole/wechat/src',
+        ),
         'EasySwoole\\Validate\\' => 
         array (
             0 => __DIR__ . '/..' . '/easyswoole/validate/src',
@@ -164,6 +171,14 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
         'EasySwoole\\Http\\' => 
         array (
             0 => __DIR__ . '/..' . '/easyswoole/http/src',
+        ),
+        'EasySwoole\\HttpClient\\Test\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/easyswoole/http-client/tests',
+        ),
+        'EasySwoole\\HttpClient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/easyswoole/http-client/src',
         ),
         'EasySwoole\\EasySwoole\\' => 
         array (

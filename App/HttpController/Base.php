@@ -68,5 +68,8 @@ class Base extends Controller
         ], JSON_UNESCAPED_UNICODE));
     }
 
+    protected function log($message){
+        return Logger::getInstance()->log($message);
+    }
 
 }

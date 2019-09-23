@@ -25,6 +25,8 @@ class EasySwooleEvent implements Event
 
     public static function initialize()
     {
+        global $baseDir;
+        $baseDir = __DIR__;
         // TODO: Implement initialize() method.
         date_default_timezone_set('Asia/Shanghai');
         $confInstance = Config::getInstance();

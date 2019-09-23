@@ -17,6 +17,14 @@ class BaseService
     const PRIMARY_NAME = 'id';
     const PAGE_SIZE = 15;
 
+
+
+    const STATE_OK = 1;
+
+    const STATE_DEL = 0;
+
+
+
     /**
      * @return Mysqli
      */

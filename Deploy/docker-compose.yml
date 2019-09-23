@@ -43,6 +43,8 @@ services:
     volumes:
       - /data/mysql/:/var/lib/mysql/
     restart: always
+    ports:
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: qaz123
   redis:

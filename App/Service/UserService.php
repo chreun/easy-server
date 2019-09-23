@@ -19,6 +19,16 @@ class UserService extends BaseService
     const USER_TYPE_DEL = 2;
 
 
+    public static function addUser($username, $portrait){
+        $data['username'] = $username;
+        $data['portrait'] = $portrait;
+        $data['create_at'] = self::localtime();
+        $data['user_type'] = self::USER_TYPE_COMMON;
+        $insert_id = self::db()->insert(self::TABLE_NAME, $data);
+        return $insert_id;
+    }
+
+
     /**
      * 暴露给前端的字段
      * @return string
