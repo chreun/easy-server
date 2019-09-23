@@ -5,7 +5,6 @@ namespace App\HttpController;
 
 
 use App\Service\UserService;
-use EasySwoole\EasySwoole\Logger;
 use EasySwoole\Http\AbstractInterface\Controller;
 
 
@@ -69,8 +68,5 @@ class Base extends Controller
         return true;
     }
 
-    protected function log($message){
-        return Logger::getInstance()->log($message);
-    }
 
 }
