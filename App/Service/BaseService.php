@@ -78,6 +78,16 @@ class BaseService
 
 
     /**
+     * @param $ids
+     * @param string $column
+     * @return Mysqli|mixed
+     * @throws
+     */
+    public static function getIn($ids, $column = '*') {
+        return self::db()->whereIn('id', $ids)->get(static::TABLE_NAME, null, $column);
+    }
+
+    /**
      * @return Logger
      */
     public static function log(){

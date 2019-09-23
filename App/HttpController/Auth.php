@@ -50,18 +50,19 @@ class Auth extends Base
      */
     public function login()
     {
-        $mobile = $this->inputParam("username");
-        if(!preg_match(RegExp::MOBILE, $mobile)) {
-            $this->outData(201, "手机号格式错误");
-            return;
-        }
         $password = $this->inputParam("password");
         if (empty($password)) {
             $this->outData(202, "密码为空");
             return;
         }
-        if(empty($userInfo = UserService::getUserByMobile($mobile))) {
-            $this->outData(203, "该手机号暂未注册");
+        $username = $this->inputParam("username");
+        if(preg_match(RegExp::MOBILE, $username)) {
+            $userInfo = UserService::getUserByMobile($username);
+        } else {
+            $userInfo = UserService::getUserByUserName($username);
+        }
+        if(empty($userInfo)) {
+            $this->outData(203, "该用户名或手机号不存在");
             return;
         }
         $userId = $userInfo['id'];

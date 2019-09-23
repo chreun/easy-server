@@ -18,16 +18,40 @@ class Admin extends Base
     }
 
     public function userAdd(){
-        $username= $this->inputParam('username');
-        if(empty($username)) {
+        $data = $this->request()->getParsedBody();
+        if(empty($data['username'] ?? '')) {
             return $this->outData(101, '请输入用户名');
         }
-        $portrait = $this->inputParam('portrait');
-        if(empty($portrait)) {
-            return $this->outData(101, '请上传头像');
+        if(empty($data['portrait'] ?? '')) {
+            return $this->outData(102, '请上传头像');
         }
-        $userId =  UserService::addUser($username, $portrait);
+        $userId =  UserService::addUser($data);
         return $this->outData(0, '新增成功', ['user_id' => $userId]);
     }
 
+
+    public function projectAdd(){
+        $data = $this->request()->getParsedBody();
+        if(empty($data['username'] ?? '')) {
+            return $this->outData(101, '请输入用户名');
+        }
+        if(empty($data['portrait'] ?? '')) {
+            return $this->outData(102, '请上传头像');
+        }
+        $userId =  UserService::addUser($data);
+        return $this->outData(0, '新增成功', ['user_id' => $userId]);
+    }
+
+
+    public function orderAdd(){
+        $data = $this->request()->getParsedBody();
+        if(empty($data['project_id'] ?? '')) {
+            return $this->outData(101, '项目信息为空');
+        }
+        if(empty($data['user_id'] ?? '')) {
+            return $this->outData(102, '请选择用户');
+        }
+        $userId =  UserService::addUser($data);
+        return $this->outData(0, '新增成功', ['user_id' => $userId]);
+    }
 }

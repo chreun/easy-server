@@ -66,6 +66,7 @@ class Base extends Controller
             'msg' => $msg,
             'data' => $data,
         ], JSON_UNESCAPED_UNICODE));
+        return true;
     }
 
     protected function log($message){

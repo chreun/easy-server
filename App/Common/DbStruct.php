@@ -9,38 +9,7 @@ use \EasySwoole\Mysqli\DDLBuilder\DDLBuilder;
 use \EasySwoole\Mysqli\DDLBuilder\Enum\{Character, Engines};
 
 
-//$blueprint->colInt('test',10);
-//$blueprint->colBigInt('test',10);
-//$blueprint->colTinyInt('test',10);
-//$blueprint->colSmallInt('test',10);
-//$blueprint->colMediumInt('test');
-//$blueprint->colFloat('test');
-//$blueprint->colDouble('test');
-//$blueprint->colDecimal('test');
-//$blueprint->colDate('test');
-//$blueprint->colYear('test');
-//$blueprint->colTime('test');
-//$blueprint->colDateTime('test');
-//$blueprint->colTimestamp('test');
-//$blueprint->colChar('test');
-//$blueprint->colVarChar('test');
-//$blueprint->colText('test');
-//$blueprint->colTinyText('test');
-//$blueprint->colLongText('test');
-//$blueprint->colMediumText('test');
-//$blueprint->colBlob('test');
-//$blueprint->colLongBlob('test');
-//$blueprint->colTinyBlob('test');
-//$blueprint->colMediumBlob('test');
 
-
-//$blueprint->indexFullText('indexName',['columnName']);
-//$blueprint->indexNormal('indeName',['columnName']);
-//$blueprint->indexPrimary('indeName',['columnName']);
-//$blueprint->indexUnique('indeName',['columnName']);
-
-
-// create database app default charset utf8 collate utf8_general_ci;
 
 class DbStruct
 {
@@ -108,9 +77,8 @@ class DbStruct
             $blueprint->setTableEngine(Engines::INNODB);//设置引擎
             $blueprint->colInt('id', 11)->setIsUnsigned()->setIsPrimaryKey()->setIsAutoIncrement();
             $blueprint->colInt('project_id', 11)->setDefaultValue(0);
-            $blueprint->colVarChar('portrait', 11)->setDefaultValue('');
-            $blueprint->colVarChar('name', 10)->setDefaultValue('');
-            $blueprint->colVarChar('relation', 10)->setDefaultValue('');
+            $blueprint->colVarChar('user_id', 11)->setDefaultValue('');
+            $blueprint->colVarChar( 'relation', 10)->setDefaultValue('');
             $blueprint->colVarChar('introduce', 10)->setDefaultValue('');
             $blueprint->colTimestamp('create_at')->setDefaultValue('now()');
         });
@@ -125,10 +93,8 @@ class DbStruct
             $blueprint->setTableEngine(Engines::INNODB);//设置引擎
             $blueprint->colInt('id', 11)->setIsUnsigned()->setIsPrimaryKey()->setIsAutoIncrement();
             $blueprint->colInt('project_id', 11)->setDefaultValue(0);
-            $blueprint->colVarChar('name', 10)->setDefaultValue('');
-            $blueprint->colVarChar('portrait', 100)->setDefaultValue('');
             $blueprint->colVarChar('title', 50)->setDefaultValue('');
-            $blueprint->colVarChar('image_lists', 10)->setDefaultValue('');
+            $blueprint->colVarChar('image_list', 10)->setDefaultValue('');
             $blueprint->colTimestamp('create_at')->setDefaultValue('now()');
         });
         return $result;
@@ -143,7 +109,7 @@ class DbStruct
             $blueprint->colInt('project_id', 11)->setDefaultValue(0);
             $blueprint->colInt('user_id', 11)->setDefaultValue(0);
             $blueprint->colVarChar('openid', 32)->setDefaultValue('');
-            $blueprint->colDecimal('price', 8, 2)->setDefaultValue('0.0');
+            $blueprint->colDecimal('amount', 8, 2)->setDefaultValue('0.0');
             $blueprint->colTimestamp('create_at')->setDefaultValue('now()');
         });
         return $result;

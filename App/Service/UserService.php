@@ -10,18 +10,13 @@ class UserService extends BaseService
 {
     const TABLE_NAME = 'user';
 
-
-
     const USER_TYPE_COMMON = 0;
 
-    const USER_TYPE_ADMIN = 1;
+    const USER_TYPE_VIRTUAL = 1;
 
-    const USER_TYPE_DEL = 2;
+    const USER_TYPE_ADMIN = 2;
 
-
-    public static function addUser($username, $portrait){
-        $data['username'] = $username;
-        $data['portrait'] = $portrait;
+    public static function addUser($data){
         $data['create_at'] = self::localtime();
         $data['user_type'] = self::USER_TYPE_COMMON;
         $insert_id = self::db()->insert(self::TABLE_NAME, $data);
@@ -51,6 +46,17 @@ class UserService extends BaseService
      */
     public static function getUserByMobile($mobile) {
         return self::db()->where("mobile", $mobile)->getOne(self::TABLE_NAME, self::exposeFiled());
+    }
+
+
+    /**
+     * 根据电话获取用户信息
+     * @param $username
+     * @return mixed
+     * @throws
+     */
+    public static function getUserByUserName($username) {
+        return self::db()->where("username", $username)->getOne(self::TABLE_NAME, self::exposeFiled());
     }
 
     /**
@@ -119,6 +125,18 @@ class UserService extends BaseService
      */
     private static function tokenKey(){
         return 'hash:user:token';
+    }
+
+
+    public static function mergeUserInfo($data){
+        $userIds = array_unique(array_column($data, 'user_id'));
+        $userInfo = self::getIn($userIds, 'id,username,portrait');
+        $userInfo = array_column($userInfo, null, 'id');
+        foreach ($data as $k => $v) {
+            $data[$k]['user_name'] = $userInfo[$v['user_id']]['user_name'] ?? '';
+            $data[$k]['portrait'] = $userInfo[$v['user_id']]['portrait'] ?? '';
+        }
+        return $data;
     }
 
 }

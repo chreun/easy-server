@@ -3,95 +3,45 @@
 namespace App\HttpController;
 
 
-use App\Common\DbStruct;
-use App\Service\BaseService;
+use App\Service\DynamicService;
+use App\Service\OrderService;
+use App\Service\ProjectService;
+use App\Service\ProveService;
 use App\Service\UserService;
 
 class Collect extends Base
 {
 
-    private function portrait(){
-        return $_SERVER['HTTP_HOST'] . '/images/portrait.png';
-    }
-    private function display(){
-        return $_SERVER['HTTP_HOST'] . '/images/display.png';
-    }
-
 
     function index()
     {
-        $detail['attain_amount'] = 279800;
-        $detail['person_count'] = 1744;
-
-
-        $detail['collect_dynamic'] = [
-            [
-                'portrait' => $this->portrait(),
-                'name' => '刘洋',
-                'title' => 'XXXXXXX',
-                'image_lists' => [ $this->display(), $this->display()],
-                'pre_day' => '今天'
-            ],
-            [
-                'portrait' => $this->portrait(),
-                'name' => '刘洋',
-                'title' => 'XXXXXXX',
-                'image_lists' => [ $this->display(), $this->display()],
-                'pre_day' => '今天'
-            ],
-        ];
-
-
-
-        $detail['prove_count'] = 67;
-        $detail['prove_lists'] = [
-            [
-                'portrait' => $this->portrait(),
-                'name' => '刘洋',
-                'relation' => '同事',
-                'introduce' => '情况属实',
-                'create_time' => date('Y-m-d H:i:s')
-            ],
-            [
-                'portrait' => $this->portrait(),
-                'name' => '刘洋',
-                'relation' => '同事',
-                'introduce' => '情况属实',
-                'create_time' => date('Y-m-d H:i:s')
-            ],
-            [
-                'portrait' => $this->portrait(),
-                'name' => '刘洋',
-                'relation' => '同事',
-                'introduce' => '不要顶部的已经有X名医护人员那个了, 直接共有66人为他证实就好,下面显示的就用最后一个人的证明就好',
-                'create_time' => date('Y-m-d H:i:s')
-            ]
-        ];
-
-        $detail['collect_count'] = 2625;
-        $detail['collect_lists'] = [
-            [
-                'portrait' => $this->portrait(),
-                'name' => '刘洋',
-                'desc' => 'XXXXXXX',
-                'amount' => '1',
-                'time' => '1小时前'
-            ],
-            [
-                'portrait' => $this->portrait(),
-                'name' => '刘洋',
-                'desc' => 'XXXXXXX',
-                'amount' => '1',
-                'time' => '2小时前'
-            ],
-
-        ];
-
-        $this->outData(0, '', $detail);
-
-
+        $project_id = $this->queryParam("project_id");
+        $data = ProjectService::find($project_id);
+        $orderList = OrderService::getByProject($project_id);
+        $data['attain_amount'] = array_sum(array_column($orderList, 'amount'));
+        $data['person_count'] = count(array_unique(array_column($orderList, 'user_id')));
+        $data['collect_dynamic'] = DynamicService::getByProject($project_id, $data);
+        $proveList = ProveService::getByProject($project_id);
+        $data['prove_count'] = count($proveList);
+        $sliceProveList = array_slice($proveList, 0, 7);
+        $data['prove_lists'] = UserService::mergeUserInfo($sliceProveList);
+        $data['collect_count'] = count($orderList);
+        return $this->outData(0, '', $data);
     }
 
+    function order(){
+        $lastId = $this->queryParam('lastId');
+        $id = $this->queryParam('id');
+        $pageSize = 20;
+        $orderArr = OrderService::getByLastId($id, $lastId, $pageSize);
+        $orderArr = UserService::mergeUserInfo($orderArr);
+        $data = [
+            'list' => $orderArr,
+            'lastId' => end($orderArr)['id'],
+            'has_next' => count($orderArr) >= $pageSize
+        ];
+        return $this->outData(0, 'ok', $data);
+    }
 
 
 
