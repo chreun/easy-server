@@ -46,5 +46,5 @@ return [
         'charset'              => 'utf8',
         'connect_timeout'      => '5',//连接超时时间
     ],
-    'RELOAD' => true
+    'RELOAD' => false
 ];

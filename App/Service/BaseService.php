@@ -32,7 +32,7 @@ class BaseService
         try {
             return Mysql::getInstance()->pool('mysql')::defer();
         } catch (\Exception $e) {
-            return null;
+            return self::log()->error("db error :" . $e->getMessage() . $e->getFile() . $e->getLine());
         }
     }
 
@@ -43,7 +43,7 @@ class BaseService
         try {
             return Redis::getInstance()->pool('redis')::defer();
         } catch (\Exception $e) {
-            return null;
+            return self::log()->error("redis error :" . $e->getMessage() . $e->getFile() . $e->getLine());
         }
     }
 
