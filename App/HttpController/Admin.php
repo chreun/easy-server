@@ -3,6 +3,8 @@
 namespace App\HttpController;
 
 
+use App\Service\OrderService;
+use App\Service\ProjectService;
 use App\Service\UserService;
 
 class Admin extends Base
@@ -16,6 +18,14 @@ class Admin extends Base
         $data['page'] = $page;
         return $this->outData(0, '', $data);
     }
+
+    public function projectList(){
+        $page = $this->queryParam("page", 1);
+        $data['list'] = ProjectService::paginate($page);
+        $data['page'] = $page;
+        return $this->outData(0, '', $data);
+    }
+
 
     public function userAdd(){
         $data = $this->request()->getParsedBody();
@@ -38,9 +48,13 @@ class Admin extends Base
         if(empty($data['portrait'] ?? '')) {
             return $this->outData(102, '请上传头像');
         }
-        $userId =  UserService::addUser($data);
+        if(empty($data['image_list'] ?? [])) {
+            return $this->outData(103, '请上传证明图片');
+        }
+        $userId =  ProjectService::addProject($data);
         return $this->outData(0, '新增成功', ['user_id' => $userId]);
     }
+
 
 
     public function orderAdd(){
@@ -51,7 +65,7 @@ class Admin extends Base
         if(empty($data['user_id'] ?? '')) {
             return $this->outData(102, '请选择用户');
         }
-        $userId =  UserService::addUser($data);
+        $userId =  OrderService::addOrder($data);
         return $this->outData(0, '新增成功', ['user_id' => $userId]);
     }
 }

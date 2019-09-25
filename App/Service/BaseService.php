@@ -18,7 +18,6 @@ class BaseService
     const PAGE_SIZE = 15;
 
 
-
     const STATE_OK = 1;
 
     const STATE_DEL = 0;
