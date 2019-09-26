@@ -86,7 +86,7 @@ class Auth extends Base
         $ext = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
         $detFile = uniqid() . '.' . $ext;
         $file->moveTo($baseDir . "/Static/image/" . $detFile);
-        return $this->outData(0, '', ['file' =>  'http://127.0.0.1/image/' . $detFile]);
+        return $this->outData(0, '', ['file' =>  '/image/' . $detFile]);
     }
 
 }

@@ -46,5 +46,6 @@ return [
         'charset'              => 'utf8',
         'connect_timeout'      => '5',//连接超时时间
     ],
-    'RELOAD' => true
+    'RELOAD' => true,
+    'BASE_HOST' => 'http://127.0.0.1/'
 ];
