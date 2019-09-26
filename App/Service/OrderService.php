@@ -8,7 +8,7 @@ namespace App\Service;
 
 class OrderService extends BaseService
 {
-    const TABLE_NAME = 'order';
+    const TABLE_NAME = 'orders';
 
 
     public static function addOrder($data){

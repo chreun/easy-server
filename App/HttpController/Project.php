@@ -9,13 +9,14 @@ use App\Service\ProjectService;
 use App\Service\ProveService;
 use App\Service\UserService;
 
-class Collect extends Base
+class Project extends Base
 {
 
+    protected $needAuth = false;
 
     function index()
     {
-        $project_id = $this->queryParam("project_id");
+        $project_id = $this->queryParam("id");
         $data = ProjectService::find($project_id);
         $orderList = OrderService::getByProject($project_id);
         $data['attain_amount'] = array_sum(array_column($orderList, 'amount'));

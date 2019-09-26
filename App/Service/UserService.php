@@ -8,7 +8,7 @@ namespace App\Service;
 
 class UserService extends BaseService
 {
-    const TABLE_NAME = 'user';
+    const TABLE_NAME = 'users';
 
     const USER_TYPE_COMMON = 0;
 
@@ -130,6 +130,9 @@ class UserService extends BaseService
 
 
     public static function mergeUserInfo($data){
+        if(empty($data)) {
+            return $data;
+        }
         $userIds = array_unique(array_column($data, 'user_id'));
         $userInfo = self::getIn($userIds, 'id,username,portrait');
         $userInfo = array_column($userInfo, null, 'id');

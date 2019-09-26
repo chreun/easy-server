@@ -6,6 +6,7 @@ namespace App\Service;
 
 
 
+use EasySwoole\EasySwoole\Config;
 use EasySwoole\EasySwoole\Logger;
 use EasySwoole\Mysqli\Mysqli;
 use EasySwoole\MysqliPool\Mysql;
@@ -106,5 +107,9 @@ class BaseService
 
     }
 
+    public static function baseUri(){
+        return Config::getInstance()->getConf('BASE_HOST');
+
+    }
 
 }

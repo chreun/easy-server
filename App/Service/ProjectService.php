@@ -5,10 +5,9 @@ namespace App\Service;
 
 
 
-
 class ProjectService extends BaseService
 {
-    const TABLE_NAME = 'project';
+    const TABLE_NAME = 'projects';
 
     public static function addProject($data){
         $data['create_at'] = self::localtime();

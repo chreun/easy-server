@@ -34,7 +34,6 @@ class EasySwooleEvent implements Event
         $config = new \EasySwoole\Mysqli\Config($dbConf);
         try {
             Mysql::getInstance()->register('mysql', $config);
-            // $poolConf->setMaxObjectNum($configData['maxObjectNum']);
         } catch (MysqlPoolException $e) {
             Logger::getInstance()->waring('db error' . $e->getMessage());
         }
