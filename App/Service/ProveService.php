@@ -12,6 +12,12 @@ class ProveService extends BaseService
 
 
 
+    public static function addProve($data){
+        $data['create_at'] = self::localtime();
+        return self::create($data);
+    }
+
+
     public static function getByProject($id) {
         $data = self::db()->where('project_id', $id)->orderBy('id', 'desc')
             ->get(self::TABLE_NAME, null, 'user_id,relation,introduce,create_at');

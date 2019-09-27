@@ -36,8 +36,16 @@ class UserService extends BaseService
 
 
     public static function userInfo($userId){
-        return self::find($userId, self::exposeFiled());
+        return self::getUserByField('id', $userId);
     }
+
+
+    public static function getUserByField($filed, $val) {
+        $ret = self::db()->where($filed, $val)->getOne(self::TABLE_NAME, self::exposeFiled());
+        $ret && $ret['portrait'] = self::formatImage($ret['portrait']);
+        return $ret;
+    }
+
 
     /**
      * 根据电话获取用户信息
@@ -46,7 +54,7 @@ class UserService extends BaseService
      * @throws
      */
     public static function getUserByMobile($mobile) {
-        return self::db()->where("mobile", $mobile)->getOne(self::TABLE_NAME, self::exposeFiled());
+        return self::getUserByField('mobile', $mobile);
     }
 
 
@@ -57,7 +65,7 @@ class UserService extends BaseService
      * @throws
      */
     public static function getUserByUserName($username) {
-        return self::db()->where("username", $username)->getOne(self::TABLE_NAME, self::exposeFiled());
+        return self::getUserByField('username', $username);
     }
 
     /**
@@ -113,7 +121,7 @@ class UserService extends BaseService
             return null;
         }
         list($userId, $time) = explode(':', $userStr);
-        if(time() - $time > 86400 * 7) {
+        if(time() - $time > 86400 * 30) {
             $redis->hDel($tokenKey, $token);
             return null;
         }

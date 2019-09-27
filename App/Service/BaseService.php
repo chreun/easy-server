@@ -76,6 +76,20 @@ class BaseService
         return self::db()->get(static::TABLE_NAME);
     }
 
+    /**
+     *
+     * @param $data
+     * @return Mysqli|mixed|null
+     * @throws
+     */
+    public static function create($data) {
+        try{
+            return self::db()->insert(static::TABLE_NAME, $data);
+        }catch (\Exception $e) {
+            self::log()->error('insert error:' . static::TABLE_NAME . $e->getMessage() . $e->getFile() . $e->getLine());
+            return null;
+        }
+    }
 
     /**
      * @param $ids
@@ -110,6 +124,19 @@ class BaseService
     public static function baseUri(){
         return Config::getInstance()->getConf('BASE_HOST');
 
+    }
+
+
+    public static function formatImage($str){
+        $baseUri = BaseService::baseUri();
+        if(strpos($str, ',') !== false) {
+            $arr = explode(',', $str);
+            foreach ($arr as  $k => $v) {
+                $arr[$k] = $baseUri . $v;
+            }
+            return $arr;
+        }
+        return $baseUri . $str;
     }
 
 }

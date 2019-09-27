@@ -4,6 +4,7 @@ namespace App\HttpController;
 
 
 
+use App\Service\BaseService;
 use App\Service\UserService;
 use EasySwoole\Http\AbstractInterface\Controller;
 
@@ -67,6 +68,8 @@ class Base extends Controller
         ], JSON_UNESCAPED_UNICODE));
         return true;
     }
+
+
 
 
 }

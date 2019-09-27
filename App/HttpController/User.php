@@ -12,7 +12,8 @@ class User extends Base
 
     public function cur()
     {
-        return $this->outData(0, '', UserService::userInfo($this->curUserId));
+        $userInfo = UserService::userInfo($this->curUserId);
+        return $this->outData(0, '', $userInfo);
     }
 
 }

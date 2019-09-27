@@ -13,8 +13,7 @@ class DynamicService extends BaseService
 
     public static function addDynamic($data){
         $data['create_at'] = self::localtime();
-        $insert_id = self::db()->insert(self::TABLE_NAME, $data);
-        return $insert_id;
+        return self::create($data);
     }
 
     public static function getByProject($id, $project) {
