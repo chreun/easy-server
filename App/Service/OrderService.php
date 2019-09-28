@@ -26,8 +26,7 @@ class OrderService extends BaseService
             $model = $model->where('id', '<', $lastId);
         }
         $data = $model->orderBy("id", 'desc')
-            ->get(self::TABLE_NAME, $pageSize, 'id,user_id,amount,encourage');
-
+            ->get(self::TABLE_NAME, $pageSize);
         $data = UserService::mergeUserInfo($data);
         foreach ($data as $k => $v) {
             $data[$k]['pre_day'] = self::formatDate(strtotime($v['create_at']));

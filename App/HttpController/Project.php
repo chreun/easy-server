@@ -32,20 +32,8 @@ class Project extends Base
         foreach (['collect_count', 'attain_amount', 'need_amount'] as $k) {
             $data[$k] = number_format($data[$k]);
         }
-
-
-
         $orderArr = OrderService::getByLastId($project_id, 0, 20);
-
-
-
         $data['order_list'] = $orderArr;
-
-
-
-
-        $data['order_list'] = UserService::mergeUserInfo($data['order_list']);
-
 
         $data['image_list'] = BaseService::formatImage($data['image_list']);
         return $this->outData(0, '', $data);
