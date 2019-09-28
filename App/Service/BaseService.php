@@ -92,6 +92,24 @@ class BaseService
     }
 
     /**
+     *
+     * @param $id
+     * @param $data
+     * @return Mysqli|mixed|null
+     * @throws
+     */
+    public static function save($id, $data){
+        try{
+            return self::db()->where('id', $id)->update(static::TABLE_NAME, $data);
+        }catch (\Exception $e) {
+            self::log()->error('update error:' . static::TABLE_NAME . $e->getMessage() . $e->getFile() . $e->getLine());
+            return null;
+        }
+    }
+
+
+
+    /**
      * @param $ids
      * @param string $column
      * @return Mysqli|mixed

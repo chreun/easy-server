@@ -4,7 +4,6 @@ namespace App\HttpController;
 
 
 
-use App\Service\BaseService;
 use App\Service\UserService;
 use EasySwoole\Http\AbstractInterface\Controller;
 
@@ -25,16 +24,15 @@ class Base extends Controller
                 $this->outData(100, "用户未登录");
                 return false;
             }
-            $userId = UserService::getIdByToken($token);
-            if(empty($userId)) {
+            $userInfo = UserService::getIdByToken($token);
+            if(empty($userInfo)) {
                 $this->outData(100, "登录已过期");
                 return false;
             }
-            $this->curUserId = $userId;
+            $this->curUserId = $userInfo['id'];
             if(!$this->needAdmin) {
                 return true;
             }
-            $userInfo = UserService::userInfo($userId);
             if($userInfo['user_type'] != UserService::USER_TYPE_ADMIN) {
                 $this->outData(101, "非管理员用户");
                 return false;

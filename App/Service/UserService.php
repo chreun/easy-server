@@ -30,9 +30,8 @@ class UserService extends BaseService
      * @return string
      */
     public static function exposeFiled(){
-        return 'id,username,mobile,portrait,user_type';
+        return 'id,username,mobile,portrait,user_type,last_login';
     }
-
 
 
     public static function userInfo($userId){
@@ -104,8 +103,9 @@ class UserService extends BaseService
      * @return mixed
      */
     public static function saveToken($userId,string $token) {
-        $redis = self::redis();
-        return $redis->hset(self::tokenKey(), $token,  $userId . ':' . time()) ;
+        $data['token'] = $token;
+        $data['last_login'] = self::localtime();
+        return self::save($userId, $data) ;
     }
 
     /**
@@ -114,18 +114,11 @@ class UserService extends BaseService
      * @return int|null
      */
     public static function getIdByToken(string $token) {
-        $redis = self::redis();
-        $tokenKey = self::tokenKey();
-        $userStr = $redis->hGet($tokenKey, $token);
-        if(empty($userStr)) {
+        $userInfo = self::getUserByField('token', $token);
+        if(time() - strtotime($userInfo['last_login']) > 86400 * 30) {
             return null;
         }
-        list($userId, $time) = explode(':', $userStr);
-        if(time() - $time > 86400 * 30) {
-            $redis->hDel($tokenKey, $token);
-            return null;
-        }
-        return $userId;
+        return $userInfo;
     }
 
     /**
