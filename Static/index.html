@@ -24,13 +24,12 @@
 <div id="app">
 	<header class="g-header g-header_v2" style="position: absolute;">
 		<div id="headerAdReplace"></div>
-		<div class="m-header m-header-hot"><a id="qscLogo" href="javascript:void (0)" class="qsclogo">
+		<div class="m-header m-header-hot"><a id="qscLogo" href="javascript:void (0)"  class="qsclogo">
 			<img src="/image/logo.png"></a></div>
 	</header>
 
 
 	<div class="main-cont" style="padding-bottom: 68px;">
-
 		<div class="project-active J-project-active" style="display: block;">
 			<section class="section">
 				<div id="baseDiv">
@@ -38,8 +37,8 @@
 						<div class="m-top1">
 							<div class="u-name">
 								<div class="photo-name-box"><img class="lazy-load"
-																								 src="/image/portrait.png">
-									<span>小杨</span></div>
+																								 v-bind:src="detail.portrait">
+									<span>{{ detail.username }}</span></div>
 								<div class="tags">
 									<div class="u-subMark"> 个人求助</div>
 								</div>
@@ -51,9 +50,9 @@
 					</header>
 					<section class="g-box2 box2 fmargT J-hot_process">
 						<ul class="moneylist">
-							<li><span>急需筹款(元)</span> <strong>500,000</strong></li>
-							<li><span>已筹金额(元)</span> <strong>41,758</strong></li>
-							<li><span>帮助次数(次)</span> <strong>2,620</strong></li>
+							<li><span>急需筹款(元)</span> <strong>{{ detail.need_amount }}</strong></li>
+							<li><span>已筹金额(元)</span> <strong>{{ detail.attain_amount }}</strong></li>
+							<li><span>帮助次数(次)</span> <strong>{{ detail.collect_count }}</strong></li>
 						</ul>
 					</section>
 				</div>
@@ -65,7 +64,7 @@
 						<header>求助说明</header>
 						<section class="m-txt">
 							<div class="u-txt J-project-intro folded">
-								好心人，您好！我叫杨绍伟，今年32岁，家住江苏南京，父亲因癌症早逝，家里上有七十几岁老母，下有七岁的儿子。经济实在困苦，2019年9月5日，在六合区第一人民医院被查出患有肾功能五级，尿毒症，医院鉴定需要换肾。疾病的噩耗让我的精神几乎崩溃，高额的费用让原本不太富裕的家庭陷入了绝境，现在已经花去50000元，后面还需要一系列的康复治疗，还需要500000元，家庭的经济实力已难以支撑下去，现发起筹款希望好心人能多帮帮我，今后我有了能力，一定将这份无私的爱回馈社会。感谢大家！
+								{{ detail.introduction }}
 							</div>
 
 							<div id="go_more" class="u-more J-view-more-intro dtstrackclick" data-dta="Unfold" style="display: block;">
@@ -78,16 +77,10 @@
 					<article>
 						<section class="m-list J-project-img-list">
 							<ul class="clearfix">
-								<li><a
-										href="https://thumb.qschou.com/files/qschou.com/project/love/1567828726272539661RNP0714f2d58cf1edef5ae385e949b52a8d.jpg@!love.png"
-										class="fancybox" rel="fancybox" data-group_id="jdt"> <img class="lazy-load"
-																																							src="https://thumb.qschou.com/files/qschou.com/project/love/1567828726272539661RNP0714f2d58cf1edef5ae385e949b52a8d.jpg@!thumb.png"
-																																							alt=""> </a></li>
-								<li><a
-										href="https://thumb.qschou.com/files/qschou.com/project/love/1567828726309319522jBV0714f2d58cf1edef5ae385e949b52a8d.jpg@!love.png"
-										class="fancybox" rel="fancybox" data-group_id="jdt"> <img class="lazy-load"
-																																							src="https://thumb.qschou.com/files/qschou.com/project/love/1567828726309319522jBV0714f2d58cf1edef5ae385e949b52a8d.jpg@!thumb.png"
-																																							alt=""> </a></li>
+
+								<li v-for="image in detail.image_list"><a href="" class="fancybox" rel="fancybox" data-group_id="jdt">
+									<img class="lazy-load"  v-bind:src="image" alt=""> </a></li>
+
 							</ul>
 						</section>
 					</article>
@@ -96,51 +89,25 @@
 			<div id="PiccCooperateVueReplaceDiv">             <!-- 血之源也在这里 -->         </div>
 			<section class="section sectionT">
 				<article class="fmarB30 g-box6 box2">
-					<header class="ifont-hui">已有<span class="cgreen">67</span>人证明情况属实 <a
-							href="/project/manage/helpProve_v7.html?uuid=5006e81c-78e8-4c6a-bf8c-798a3b95e63d&amp;from=HelpVerify-button&amp;cc=20001.v7_3.click_help_prove&amp;shareuuid=">
-						<span>                     我也来证明                 </span> </a></header>
+					<header class="ifont-hui">已有<span class="cgreen">{{detail.prove_count}}</span>人证明情况属实</header>
 					<section>
 						<ul class="zslist ">
-							<li class=" active  J-prove-avatar"><a href="javascript:;"><img class="lazy-load"
-																																							src="https://thumb.qschou.com/files/qschou.com/avatar/282/ed93b627-d14d-11e9-a2e8-00163e09c7a8/ed969ff4-d14d-11e9-861a-00163e0d8da4.jpeg@!thumb.png"></a>
+							<li  v-for="prove in detail.prove_lists" class="active  J-prove-avatar"><a href="javascript:;">
+								<img class="lazy-load" v-bind:src="prove.portrait"></a>
 							</li>
-							<li class="  J-prove-avatar"><a href="javascript:;"><img class="lazy-load"
-																																			 src="https://thumb.qschou.com/files/qschou.com/avatar/391/5f915637-994b-11e9-95c3-00163e09c7a8/c1239217-d1e4-11e9-871b-00163e012abb.jpeg@!thumb.png"></a>
-							</li>
-							<li class="  J-prove-avatar"><a href="javascript:;"><img class="lazy-load"
-																																			 src="https://thumb.qschou.com/files/qschou.com/avatar/524/e9eb8d3b-27bc-4115-bf4d-c67a05b16811/6788436f-d852-11e9-a2e8-00163e09c7a8.jpeg@!thumb.png"></a>
-							</li>
-							<li class="  J-prove-avatar"><a href="javascript:;"><img class="lazy-load"
-																																			 src="https://thumb.qschou.com/files/qschou.com/avatar/17/0af9357c-171f-4c9b-be19-c8086db80c6a/d5352334-d92d-11e9-9ed1-00163e012f31.jpeg@!thumb.png"></a>
-							</li>
-							<li class="  J-prove-avatar"><a href="javascript:;"><img class="lazy-load"
-																																			 src="https://thumb.qschou.com/files/qschou.com/avatar/360/7ad45734-a797-4912-97c3-71c3fb1178f9/28ad5312-d208-11e9-a113-00163e0e2150.jpeg@!thumb.png"></a>
-							</li>
+
 							<!-- {@#if prove_total>5}                             <li class="omit">                                 <a id="prove_list_btn" href="/project/manage/prove_v7.html?uuid=5006e81c-78e8-4c6a-bf8c-798a3b95e63d" >                                     <img class="lazy-load" src="//static2.qschou.com/img/v7/project/detail/sick/artboard2.jpg">                                 </a>                             </li>                         {@#/if} -->
 							<li><a id="go_more_prove" class="go_more" href="javascript:;"> </a></li>
 						</ul>
 					</section>
-					<section class="m-say">
-						<div class="prove_content t1  active" role="tabpanel" id="tab0">
-							<div class="prove_header"><strong class="prove_preson">厉余本</strong> <span class="prove_relationg">亲人</span>
+					<section  v-for="(prove, index) in detail.prove_lists" v-if="index == 0" class="m-say">
+						<div  class="prove_content t1 active" role="tabpanel" id="tab0">
+							<div class="prove_header">
+								<strong class="prove_preson">{{prove.real_name}}</strong>
+								<span class="prove_relationg">{{prove.relation}}</span>
 								<span class="prove_realname">已实名</span></div>
-							<p class=" J-prove-msg">老婆的弟弟，情况属实、希望大家帮忙转发支持一下</p></div>
-						<div class="prove_content t1 " role="tabpanel" id="tab1">
-							<div class="prove_header"><strong class="prove_preson">冯彩凤</strong> <span class="prove_relationg">亲人</span>
-								<span class="prove_realname">已实名</span></div>
-							<p class=" J-prove-msg">妹夫。情况属实希望大家帮忙。。</p></div>
-						<div class="prove_content t1 " role="tabpanel" id="tab2">
-							<div class="prove_header"><strong class="prove_preson">周志辉</strong> <span class="prove_relationg">朋友</span>
-								<span class="prove_realname">已实名</span></div>
-							<p class=" J-prove-msg">内容真实，希望大家帮忙🙏 🙏 🙏</p></div>
-						<div class="prove_content t1 " role="tabpanel" id="tab3">
-							<div class="prove_header"><strong class="prove_preson">李明霞</strong> <span class="prove_relationg">朋友</span>
-								<span class="prove_realname">已实名</span></div>
-							<p class=" J-prove-msg">是同事的亲弟弟 情况属实 请大家帮忙转发 好人一生平安</p></div>
-						<div class="prove_content t1 " role="tabpanel" id="tab4">
-							<div class="prove_header"><strong class="prove_preson">王安俊</strong> <span class="prove_relationg">亲人</span>
-								<span class="prove_realname">已实名</span></div>
-							<p class=" J-prove-msg">姨妈家的儿子，确诊为尿毒症患者！</p></div>
+							<p class=" J-prove-msg">{{prove.introduce}}</p>
+						</div>
 					</section>
 				</article>
 			</section>
@@ -158,14 +125,14 @@
 							<!-- <i class="peifu-icon"></i> --><a href="javascript:;">先行赔付</a></div>
 					</header>                <!-- 主态的非-1情况 及客态的10情况 -->
 					<section class="m-ziliao b_ziliao"><!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">患者：杨绍伟</h6>
+						<div class="item style10"><h6 class="u-tit">患者：{{detail.patient}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>身份证明已审核</span></span></p>
 						</div><!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">所患疾病：终末期肾病尿毒症</h6>
+						<div class="item style10"><h6 class="u-tit">所患疾病：{{detail.sickness}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>诊断证明已审核</span></span> <span
-									class="u-smal-item"><span class="fright"></span><span>诊断医院：六合人民医院</span></span></p></div>
+									class="u-smal-item"><span class="fright"></span><span>诊断医院：{{detail.prove_hospital}}</span></span></p></div>
 						<!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">收款人：杨绍伟(本人)</h6>
+						<div class="item style10"><h6 class="u-tit">收款人：{{detail.payee}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>身份证明已审核</span></span> <span
 									class="u-smal-item"><span class="fright"></span><span>关系证明已审核</span></span></p></div>
 					</section>                             <!-- 增信补充说明及发起人承诺书 -->                 <!-- 增信补充说明及发起人承诺书 -->
@@ -173,12 +140,12 @@
 						<div class="u-memo">
 							<div class="icon-m ibg1"></div>
 							<div class="txt"><p class="t1">家庭经济收入状况</p>
-								<p class="ifont-green"> 年收入:4万 / 金融资产:0万 </p></div>
+								<p class="ifont-green"> 年收入:{{detail.annual_income}}万 / 金融资产:{{detail.financial_assets}}万 </p></div>
 						</div>
 						<div class="u-memo">
 							<div class="icon-m ibg2"></div>
 							<div class="txt"><p class="t1">家庭房屋财产状况</p>
-								<p class="ifont-green"> 数量:1 / 价值:10万 / 状态:未变卖 </p></div>
+								<p class="ifont-green"> 数量:{{detail.house_count}} / 价值:{{detail.house_value}}万 / 状态:{{detail.house_status}} </p></div>
 						</div>
 						<div class="u-memo">
 							<div class="icon-m ibg3"></div>
@@ -188,7 +155,7 @@
 						<div class="u-memo">
 							<div class="icon-m ibg4"></div>
 							<div class="txt"><p class="t1">保险状况</p>
-								<p class="ifont-green"> 有医保 </p></div>
+								<p class="ifont-green"> {{detail.health_care}} </p></div>
 						</div>
 					</section>
 					<section class="m-ziliao">
@@ -216,88 +183,27 @@
 							<div id="news" class="tab-pane active">
 								<div class="comment-box">                         <!-- 动态列表 -->
 									<ul class="commentlist news">
-										<li class="citem J-news-item" data-topicid="8778540">
+										<li v-for="dynamic in detail.collect_dynamic" class="citem J-news-item" data-topicid="8778540">
 											<div class="phead"><a href="javascript:;"><img class="lazy-load"
-																																		 src="https://thumb.qschou.com/files/qschou.com/avatar/116/f6b59341-d121-11e9-b985-00163e20c4ba/c84d1148-dc4c-11e9-9a7d-00163e0e2150.jpeg@!thumb.png"></a>
+																																		 v-bind:src="detail.portrait"></a>
 											</div>
-											<div class="cominfo"><h6><a href="javascript:;">小杨</a></h6>
-												<p class="ctxt"><span style="color:#666">现在又透析了，该如何面对。</span> <br></p>
+											<div class="cominfo"><h6><a href="javascript:;">{{detail.username}}</a></h6>
+												<p class="ctxt"><span style="color:#666">{{dynamic.title}}</span> <br></p>
 												<ul class="u-photolist flist clearfix">
-													<li><a
-															href="https://thumb.qschou.com/files/qschou.com/project/3415006e81c-78e8-4c6a-bf8c-798a3b95e63d1568192172483220227000b2c612a2103d99bfa7017707f0f824e2.jpg@!love.png"
-															class="fancybox" rel="fancybox" data-group_id="feed8778540"> <img class="lazy-load"
-																																																src="https://thumb.qschou.com/files/qschou.com/project/3415006e81c-78e8-4c6a-bf8c-798a3b95e63d1568192172483220227000b2c612a2103d99bfa7017707f0f824e2.jpg@!thumb.png"
-																																																width="25%" alt=""> </a>
-													</li>
-													<li><a
-															href="https://thumb.qschou.com/files/qschou.com/project/3415006e81c-78e8-4c6a-bf8c-798a3b95e63d1568192173143614591000c37588356b896b5c94eb0d85d2fbcf44.jpg@!love.png"
-															class="fancybox" rel="fancybox" data-group_id="feed8778540"> <img class="lazy-load"
-																																																src="https://thumb.qschou.com/files/qschou.com/project/3415006e81c-78e8-4c6a-bf8c-798a3b95e63d1568192173143614591000c37588356b896b5c94eb0d85d2fbcf44.jpg@!thumb.png"
-																																																width="25%" alt=""> </a>
+													<li v-for="image in dynamic.image_list"><a class="fancybox" rel="fancybox" data-group_id="feed8778540">
+														<img class="lazy-load"  v-bind:src="image" width="25%" alt=""> </a>
 													</li>
 												</ul>
-												<div class="citme"> 11天前 <span style="color:#43AC43">项目更新</span></div>
-											</div>
-										</li>
-										<li class="citem J-news-item" data-topicid="8765140" style="display:none">
-											<div class="phead"><a href="javascript:;"><img class="lazy-load"
-																																		 src="https://thumb.qschou.com/files/qschou.com/avatar/116/f6b59341-d121-11e9-b985-00163e20c4ba/c84d1148-dc4c-11e9-9a7d-00163e0e2150.jpeg@!thumb.png"></a>
-											</div>
-											<div class="cominfo"><h6><a href="javascript:;">小杨</a></h6>
-												<p class="ctxt"><span style="color:#666">又要血透析了，真的很痛苦。</span> <br></p>
-												<ul class="u-photolist flist clearfix">
-													<li><a
-															href="https://thumb.qschou.com/files/qschou.com/project/3415006e81c-78e8-4c6a-bf8c-798a3b95e63d1567999044688923688000f7bc754647c9a170f52adfb1b43aa481.jpg@!love.png"
-															class="fancybox" rel="fancybox" data-group_id="feed8765140"> <img class="lazy-load"
-																																																src="https://thumb.qschou.com/files/qschou.com/project/3415006e81c-78e8-4c6a-bf8c-798a3b95e63d1567999044688923688000f7bc754647c9a170f52adfb1b43aa481.jpg@!thumb.png"
-																																																width="25%" alt=""> </a>
-													</li>
-													<li><a
-															href="https://thumb.qschou.com/files/qschou.com/project/3415006e81c-78e8-4c6a-bf8c-798a3b95e63d156799904498179986600017fcf05c8d51802d3afdd1df45e91179.jpg@!love.png"
-															class="fancybox" rel="fancybox" data-group_id="feed8765140"> <img class="lazy-load"
-																																																src="https://thumb.qschou.com/files/qschou.com/project/3415006e81c-78e8-4c6a-bf8c-798a3b95e63d156799904498179986600017fcf05c8d51802d3afdd1df45e91179.jpg@!thumb.png"
-																																																width="25%" alt=""> </a>
-													</li>
-												</ul>
-												<div class="citme"> 13天前 <span style="color:#43AC43">项目更新</span></div>
-											</div>
-										</li>
-										<li class="citem J-news-item" data-topicid="8756402" style="display:none">
-											<div class="phead"><a href="javascript:;"><img class="lazy-load"
-																																		 src="https://thumb.qschou.com/files/qschou.com/avatar/116/f6b59341-d121-11e9-b985-00163e20c4ba/c84d1148-dc4c-11e9-9a7d-00163e0e2150.jpeg@!thumb.png"></a>
-											</div>
-											<div class="cominfo"><h6><a href="javascript:;">小杨</a></h6>
-												<p class="ctxt"><span style="color:#666">医疗资料已公示</span> <br></p>
-												<ul class="u-photolist flist clearfix">
-													<li><a
-															href="https://thumb.qschou.com/files/qschou.com/project/medical_certificate/1567828726199129430GUN0714f2d58cf1edef5ae385e949b52a8d.jpg@!love.png"
-															class="fancybox" rel="fancybox" data-group_id="feed8756402"> <img class="lazy-load"
-																																																src="https://thumb.qschou.com/files/qschou.com/project/medical_certificate/1567828726199129430GUN0714f2d58cf1edef5ae385e949b52a8d.jpg@!thumb.png"
-																																																width="25%" alt=""> </a>
-													</li>
-												</ul>
-												<div class="citme"> 15天前 <span style="color:#43AC43">项目更新</span></div>
-											</div>
-										</li>
-										<li class="citem J-news-item" data-topicid="8756401" style="display:none">
-											<div class="phead"><a href="javascript:;"><img class="lazy-load"
-																																		 src="https://thumb.qschou.com/files/qschou.com/avatar/116/f6b59341-d121-11e9-b985-00163e20c4ba/c84d1148-dc4c-11e9-9a7d-00163e0e2150.jpeg@!thumb.png"></a>
-											</div>
-											<div class="cominfo"><h6><a href="javascript:;">小杨</a></h6>
-												<p class="ctxt"><span style="color:#666">目标金额：</span> <span style="color:#38a43b">500000</span>
-													<span style="color:#666">元</span> <br></p>
-												<ul class="u-photolist flist clearfix"></ul>
-												<div class="citme"> 15天前 <span style="color:#43AC43">项目发起</span></div>
+												<div class="citme"> {{dynamic.pre_day}} <span style="color:#43AC43">项目更新</span></div>
 											</div>
 										</li>
 										<div id="all_news" class="u-more J-btn-get-more-news dtstrackclick" data-dta="ViewAllDynamic"
-												 href="javascript:;" style="display: block;"><span>查看全部 4条</span></div>
+												 href="javascript:;" style="display: block;"><span>查看全部 {{detail.collect_dynamic ? detail.collect_dynamic.length: 0}}条</span></div>
 									</ul> <!-- ／动态列表 -->
 								</div>
 							</div>
 							<div id="publicity" class="tab-pane capital">
 								<div id="publicityReplaceDiv">
-
 								</div>
 							</div>
 						</div>
@@ -314,7 +220,7 @@
 				<article class="help-box support">
 					<section class="g-help">
 						<div class="m-help">
-							<header class="help-bh"><span class="ifont-green">2620</span>人帮助过</header>
+							<header class="help-bh"><span class="ifont-green">{{detail.person_count}}</span>人帮助过</header>
 							<section class="box-ranking"><a id="wrap_love_list_arrow" href="javascript:;">
 								<div class="u-rank"><h6><span>爱心贡献榜</span></h6>
 									<p id="love_list" class="u-corwn"><span class="corwn-wrap corwn-wrap00" href="javascript:;">                             <img
@@ -335,19 +241,18 @@
 							<div class="fborder"></div>
 							<section class="help-bd-2 comment-box" >
 								<ul class="commentlist J-support-list">                         <!-- TA的帮助中的帮助列表 -->
-									<li class="citem J-support-item " data-orderid="1190836289">
+									<li  v-for="order in detail.order_list" class="citem J-support-item " data-orderid="1190836289">
 										<div class="phead"><a id="goSupportList" href="javascript:;"
-																					data-uuid="e62902eb-832d-4848-8880-818361ac3015"> <img class="lazy-load"
-																																																 src="https://thumb.qschou.com/files/qschou.com/avatar/734/e62902eb-832d-4848-8880-818361ac3015/e0b59432-da92-11e9-b985-00163e20c4ba.jpeg@!thumb.png"></a>
-											<span class="u-num"><i>778</i></span></div>
+																					data-uuid="e62902eb-832d-4848-8880-818361ac3015"> <img class="lazy-load" v-bind:src="order.portrait"></a>
+											<span class="u-num"><i>{{order.total_ax}}</i></span></div>
 										<div class="cominfo">
 											<h6 class="ifont-hui">
-												<div class="first-line"><a class="left" href="javascript:;">祥</a>
+												<div class="first-line"><a class="left" href="javascript:;">{{order.username}}</a>
 													<div class="right">
-														<div class="added-love-point"><span>爱心值</span><em>15</em></div>
+														<div class="added-love-point"><span>爱心值</span><em>{{order.order_ax}}</em></div>
 													</div>
 												</div>
-												<div><small>支持了 </small><small style="color:#F25B4B">5.00</small></div>
+												<div><small>支持了 </small><small style="color:#F25B4B">{{order.amount}}</small></div>
 												<div class="b_btn_comment_zan">                                                   <!-- 非主态可以点赞 -->
 													<div class="zancontainer  J-zan-btn" data-orderid="1190836289"
 															 data-userid="e62902eb-832d-4848-8880-818361ac3015"><span class="zanicon"></span> <span
@@ -355,8 +260,8 @@
 													</div>
 												</div>
 											</h6>
-											<p class="ctxt message">相信明天会更好！</p>
-											<div class="citme"> 32分钟前</div>
+											<p class="ctxt message">{{order.encourage}}</p>
+											<div class="citme"> {{order.pre_day}}</div>
 											<div class="com2 J-comments" style=" display: none ;"><span class="s-sanjiao"></span></div>
 										</div>
 									</li><!-- TA的帮助中的帮助列表 -->
@@ -375,8 +280,7 @@
 		<div class="anotherTips J-anotherTips"> 紧急求助！治病救命不能等，伸出援手帮助患者</div>
 		<div class="footer-bottom"><a class="share-btn J-btn-share J-btn-share-maidian dtstrackclick" data-dta="V1_2shareto_b"
 																	href="javascript:;">1038</a>
-			<div class="btn-box"><a class="yellow-btn J-go-pay dtstrackclick" href="javascript:;"
-															data-dta="V1_2donate_b">我要帮帮他</a></div>
+			<div class="btn-box"><a class="yellow-btn J-go-pay dtstrackclick" href="/pay.html" >我要帮帮他</a></div>
 		</div>
 	</footer>
 </div>
@@ -386,24 +290,29 @@
   const router = new VueRouter({
 
   });
-
   const app = new Vue({
     router,
     el: '#app',
     data: {
-    	message: 'Hello Vue!'
+    	detail: {},
+      message: 'as',
+		},
+
+		methods : {
+      async getHistoryData () {
+        try {
+          const projectId = this.$route.query.id
+          let res = await axios.get('api/project?id=' + projectId);
+          console.log(res.data.data)
+          this.detail = res.data.data
+        } catch (err) {
+          console.log(err)
+          alert('请求出错！')
+        }
+      }
 		},
 		created () {
-      const projectId = this.$route.query.id
-      axios.get('/project?id=' + projectId)
-        .then(function (response) {
-          console.log(response);
-
-        }).catch(function (error) {
-          console.log(error);
-        });
-
-    	return
+      this.getHistoryData()
   	}
   }).$mount('#app');
 

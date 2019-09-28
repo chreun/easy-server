@@ -142,11 +142,12 @@ class UserService extends BaseService
             return $data;
         }
         $userIds = array_unique(array_column($data, 'user_id'));
-        $userInfo = self::getIn($userIds, 'id,username,portrait');
+        $userInfo = self::getIn($userIds, 'id,username,real_name,portrait');
         $userInfo = array_column($userInfo, null, 'id');
         foreach ($data as $k => $v) {
-            $data[$k]['user_name'] = $userInfo[$v['user_id']]['user_name'] ?? '';
-            $data[$k]['portrait'] = $userInfo[$v['user_id']]['portrait'] ?? '';
+            $data[$k]['user_name'] = $userInfo[$v['user_id']]['username'] ?? '';
+            $data[$k]['real_name'] = $userInfo[$v['user_id']]['real_name'] ?? '';
+            $data[$k]['portrait'] = self::formatImage($userInfo[$v['user_id']]['portrait'] ?? '');
         }
         return $data;
     }

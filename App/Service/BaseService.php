@@ -123,20 +123,38 @@ class BaseService
 
     public static function baseUri(){
         return Config::getInstance()->getConf('BASE_HOST');
-
     }
 
 
     public static function formatImage($str){
-        $baseUri = BaseService::baseUri();
+        if(empty($str)) return $str;
         if(strpos($str, ',') !== false) {
             $arr = explode(',', $str);
             foreach ($arr as  $k => $v) {
-                $arr[$k] = $baseUri . $v;
+                $arr[$k] = $v;
             }
             return $arr;
         }
-        return $baseUri . $str;
+        return $str;
+    }
+
+    public static function formatDate($time){
+        $t=time()-$time;
+        $f=array(
+            '31536000'=>'年',
+            '2592000'=>'个月',
+            '604800'=>'星期',
+            '86400'=>'天',
+            '3600'=>'小时',
+            '60'=>'分钟',
+            '1'=>'秒'
+        );
+        foreach ($f as $k=>$v)    {
+            if (0 != $c =floor($t/(int)$k)) {
+                return $c.$v.'前';
+            }
+        }
+        return '';
     }
 
 }

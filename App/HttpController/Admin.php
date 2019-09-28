@@ -41,6 +41,9 @@ class Admin extends Base
         if(empty($data['username'] ?? '')) {
             return $this->outData(101, '请输入用户名');
         }
+        if(empty($data['real_name'] ?? '')) {
+            return $this->outData(101, '请输入真实姓名');
+        }
         if(empty($data['portrait'] ?? '')) {
             return $this->outData(102, '请上传头像');
         }

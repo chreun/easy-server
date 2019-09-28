@@ -3,6 +3,7 @@
 namespace App\HttpController;
 
 
+use App\Service\BaseService;
 use App\Service\DynamicService;
 use App\Service\OrderService;
 use App\Service\ProjectService;
@@ -20,13 +21,33 @@ class Project extends Base
         $data = ProjectService::find($project_id);
         $orderList = OrderService::getByProject($project_id);
         $data['attain_amount'] = array_sum(array_column($orderList, 'amount'));
+        $data['collect_count'] = count($orderList);
         $data['person_count'] = count(array_unique(array_column($orderList, 'user_id')));
-        $data['collect_dynamic'] = DynamicService::getByProject($project_id, $data);
+        $data['collect_dynamic'] = DynamicService::getByProject($project_id);
         $proveList = ProveService::getByProject($project_id);
         $data['prove_count'] = count($proveList);
-        $sliceProveList = array_slice($proveList, 0, 7);
+        $sliceProveList = array_slice($proveList, 0, 5);
         $data['prove_lists'] = UserService::mergeUserInfo($sliceProveList);
-        $data['collect_count'] = count($orderList);
+
+        foreach (['collect_count', 'attain_amount', 'need_amount'] as $k) {
+            $data[$k] = number_format($data[$k]);
+        }
+
+
+
+        $orderArr = OrderService::getByLastId($project_id, 0, 20);
+
+
+
+        $data['order_list'] = $orderArr;
+
+
+
+
+        $data['order_list'] = UserService::mergeUserInfo($data['order_list']);
+
+
+        $data['image_list'] = BaseService::formatImage($data['image_list']);
         return $this->outData(0, '', $data);
     }
 
