@@ -25,6 +25,9 @@ class Admin extends Base
     public function projectList(){
         $page = $this->queryParam("page", 1);
         $data['list'] = ProjectService::paginate($page);
+        foreach ($data['list']  as $k => $v) {
+            $data['list'][$k]['url'] = rtrim(BaseService::baseUri(), '/') . '/#/project?id=' . $v['id'];
+        }
         $data['page'] = $page;
         return $this->outData(0, '', $data);
     }
