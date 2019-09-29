@@ -308,7 +308,7 @@ h1.fmargT {
 }
 
 .info_b .m-txt {
-    padding: 15px 0 45px;
+    padding: 15px 0 20px;
     font-size: 16px;
     color: #666;
     line-height: 24px;
@@ -1588,4 +1588,14 @@ small {
     width: 30px;
     height: 30px;
     background: url('/image/icon/fx.png') 50%/100% 100% no-repeat;
+}
+
+.send-rec-btn .sendlove-icon {
+    display: inline-block;
+    width: 25px;
+    height: 21px;
+    margin-right: 3px;
+    background: url('/image/icon/sl.png');
+    background-size: 100% 100%;
+    vertical-align: text-bottom;
 }

@@ -66,15 +66,25 @@
 					<article>
 						<header>求助说明</header>
 						<section class="m-txt">
-							<div class="u-txt J-project-intro folded">
+							<div class="u-txt J-project-intro"  v-bind:class="[more_intro ? '' : 'folded']">
 								{{ detail.introduction }}
 							</div>
-
-							<div id="go_more" class="u-more J-view-more-intro dtstrackclick" data-dta="Unfold" style="display: block;">
+							<div id="go_more" v-on:click="more_intro = true" class="u-more J-view-more-intro dtstrackclick" data-dta="Unfold"
+									 v-bind:style="{ display:more_intro ?'none':'block'}">
 								<span>展开全文</span></div>
+
+
+							<div id="sendlove-rectangle" class="sendlove-rectangle dtstrackclick" data-dta="sendlove-rectangle" style="padding-top: 20px"
+									 v-bind:style="{ display:more_intro ?'block':'none'}">
+								<div  v-on:click="toDonate" class="h5ui-btn send-rec-btn h5ui-btn_green_shadow  fmarT20">
+									<span class="sendlove-icon"></span>帮他渡过难关
+								</div>
+							</div>
 						</section>
 					</article>
 				</section>
+
+
 				<div id="helpPayReplaceDiv"></div>
 				<section class="projectImg_b">
 					<article>
@@ -83,7 +93,6 @@
 
 								<li v-for="image in detail.image_list"><a href="" class="fancybox" rel="fancybox" data-group_id="jdt">
 									<img class="lazy-load"  v-bind:src="image" alt=""> </a></li>
-
 							</ul>
 						</section>
 					</article>
@@ -176,7 +185,7 @@
 					<div class="tab J-tab">
 						<div class="h5ui-tab ">
 							<ul class="tab-item">
-								<li class="active"><a id="fund_news" href="#news" class="dtstrackclick" data-dta="sickTrends">筹款动态<span>(4)</span></a>
+								<li class="active"><a id="fund_news" href="#news" class="dtstrackclick" data-dta="sickTrends">筹款动态<span>({{detail.collect_dynamic ? detail.collect_dynamic.length: 0}})</span></a>
 								</li>
 								<li><a id="fund_public" href="#publicity" class="dtstrackclick"
 											 data-dta="fundsPublic">资金公示<span>(0)</span></a></li>
@@ -186,7 +195,7 @@
 							<div id="news" class="tab-pane active">
 								<div class="comment-box">                         <!-- 动态列表 -->
 									<ul class="commentlist news">
-										<li v-for="dynamic in detail.collect_dynamic" class="citem J-news-item" data-topicid="8778540">
+										<li v-for="(dynamic, index) in detail.collect_dynamic"  v-bind:style="{ display: !more_dynamic && index > 0  ? 'none'  : 'block' }"  class="citem J-news-item" data-topicid="8778540">
 											<div class="phead"><a href="javascript:;"><img class="lazy-load"
 																																		 v-bind:src="detail.portrait"></a>
 											</div>
@@ -200,8 +209,9 @@
 												<div class="citme"> {{dynamic.pre_day}} <span style="color:#43AC43">项目更新</span></div>
 											</div>
 										</li>
-										<div id="all_news" class="u-more J-btn-get-more-news dtstrackclick" data-dta="ViewAllDynamic"
-												 href="javascript:;" style="display: block;"><span>查看全部 {{detail.collect_dynamic ? detail.collect_dynamic.length: 0}}条</span></div>
+										<div id="all_news"  v-on:click="more_dynamic = true" class="u-more J-btn-get-more-news dtstrackclick" data-dta="ViewAllDynamic"
+												 v-bind:style="{ display:more_dynamic ?'none' : 'block'}"	>
+											<span>查看全部 {{detail.collect_dynamic ? detail.collect_dynamic.length: 0}}条</span></div>
 									</ul> <!-- ／动态列表 -->
 								</div>
 							</div>
@@ -283,7 +293,7 @@
 		<div class="anotherTips J-anotherTips"> 紧急求助！治病救命不能等，伸出援手帮助患者</div>
 		<div class="footer-bottom"><a class="share-btn J-btn-share J-btn-share-maidian dtstrackclick" data-dta="V1_2shareto_b"
 																	href="javascript:;">1038</a>
-			<div class="btn-box"><a class="yellow-btn J-go-pay dtstrackclick" href="/pay.html" >我要帮帮他</a></div>
+			<div class="btn-box"><a class="yellow-btn J-go-pay dtstrackclick" v-on:click="toDonate" >我要帮帮他</a></div>
 		</div>
 	</footer>
 </div>
@@ -298,8 +308,10 @@
     el: '#app',
     data: {
     	detail: {},
+			more_intro: false,
+			more_dynamic: false,
+			project_id: 0,
 		},
-
 		methods : {
       async getHistoryData () {
         try {
@@ -311,7 +323,10 @@
         } catch (err) {
           alert('请求出错！')
         }
-      }
+      },
+			toDonate () {
+        window.location.href = '/pay.html?id=' + this.$route.query.id;
+			}
 		},
 		created () {
 			this.getHistoryData()
