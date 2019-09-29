@@ -11,7 +11,7 @@ class ProjectService extends BaseService
 
     public static function addProject($data){
         $data['create_at'] = self::localtime();
-        $insert_id = self::db()->insert(self::TABLE_NAME, $data);
+        $insert_id = self::create($data);
         return $insert_id;
     }
 

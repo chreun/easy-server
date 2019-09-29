@@ -20,7 +20,7 @@ class UserService extends BaseService
         $data['create_at'] = self::localtime();
         $data['user_type'] = self::USER_TYPE_VIRTUAL;
         $data['password'] = password_hash(123456, PASSWORD_BCRYPT);;
-        $insert_id = self::db()->insert(self::TABLE_NAME, $data);
+        $insert_id = self::create($data);
         return $insert_id;
     }
 
@@ -80,7 +80,7 @@ class UserService extends BaseService
         $data['create_at'] = self::localtime();
         $data['last_login'] = self::localtime();
         $data['user_type'] = self::USER_TYPE_COMMON;
-        $insert_id = self::db()->insert(self::TABLE_NAME, $data);
+        $insert_id = self::create($data);
         return $insert_id;
     }
 
