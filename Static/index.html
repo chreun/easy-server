@@ -254,7 +254,7 @@
 							<div class="fborder"></div>
 							<section class="help-bd-2 comment-box" >
 								<ul class="commentlist J-support-list">                         <!-- TA的帮助中的帮助列表 -->
-									<li  v-for="order in detail.order_list" class="citem J-support-item " data-orderid="1190836289">
+									<li  v-for="order in order.list" class="citem J-support-item " data-orderid="1190836289">
 										<div class="phead"><a id="goSupportList" href="javascript:;"
 																					data-uuid="e62902eb-832d-4848-8880-818361ac3015"> <img class="lazy-load" v-bind:src="order.portrait"></a>
 											<span class="u-num"><i>{{order.total_ax}}</i></span></div>
@@ -279,6 +279,7 @@
 										</div>
 									</li><!-- TA的帮助中的帮助列表 -->
 								</ul>
+								<p style="text-align: center;color: #666;padding:10px 0;font-size: 14px;">已到底部</p>
 							</section>
 						</div>
 					</section>
@@ -311,26 +312,53 @@
 			more_intro: false,
 			more_dynamic: false,
 			project_id: 0,
+      order: {
+        list: [],
+				lastId: 0,
+        hasNext: false
+			},
 		},
 		methods : {
-      async getHistoryData () {
-        try {
-          const projectId = this.$route.query.id
-          let res = await axios.get('api/project?id=' + projectId);
-          this.$nextTick(function () {
-            this.detail = res.data.data
-					})
-        } catch (err) {
-          alert('请求出错！')
-        }
+      async getBaseData () {
+				const projectId = this.$route.query.id
+				let res = await axios.get('api/project?id=' + projectId);
+				this.$nextTick(function () {
+					this.detail = res.data.data
+				})
+				this.moreOrder()
       },
+      async moreOrder () {
+        const projectId = this.$route.query.id
+        let orderRes = await axios.get('api/project/order?id=' + projectId + '&lastId=' + this.order.lastId);
+        if(orderRes.data.code === 0) {
+					let retData = orderRes.data.data
+          this.order.list = this.order.list.concat(retData.list)
+          this.order.lastId = retData.lastId
+          this.order.hasNext = retData.hasNext
+				}
+			},
 			toDonate () {
         window.location.href = '/pay.html?id=' + this.$route.query.id;
-			}
+			},
+      handleScroll() {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        let scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop; //变量windowHeight是可视区的高度
+        let windowHeight =
+          document.documentElement.clientHeight || document.body.clientHeight; //变量scrollHeight是滚动条的总高度
+        let scrollHeight =
+          document.documentElement.scrollHeight || document.body.scrollHeight; //滚动条到底部的条件
+        if (scrollTop + windowHeight === scrollHeight && this.order.hasNext) {
+           this.moreOrder()
+        }
+      }
 		},
 		created () {
-			this.getHistoryData()
-  	}
+			this.getBaseData()
+  	},
+		mounted () {
+      window.addEventListener('scroll', this.handleScroll)
+		}
   }).$mount('#app');
 
 

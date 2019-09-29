@@ -28,27 +28,24 @@ class Project extends Base
         $data['prove_count'] = count($proveList);
         $sliceProveList = array_slice($proveList, 0, 5);
         $data['prove_lists'] = UserService::mergeUserInfo($sliceProveList);
-
         foreach (['collect_count', 'attain_amount', 'need_amount'] as $k) {
             $data[$k] = number_format($data[$k]);
         }
-        $orderArr = OrderService::getByLastId($project_id, 0, 20);
-        $data['order_list'] = $orderArr;
 
         $data['image_list'] = BaseService::formatImage($data['image_list']);
         return $this->outData(0, '', $data);
     }
 
     function order(){
-        $lastId = $this->queryParam('lastId');
         $id = $this->queryParam('id');
+        $lastId = $this->queryParam('lastId', 0);
         $pageSize = 20;
         $orderArr = OrderService::getByLastId($id, $lastId, $pageSize);
         $orderArr = UserService::mergeUserInfo($orderArr);
         $data = [
             'list' => $orderArr,
             'lastId' => end($orderArr)['id'],
-            'has_next' => count($orderArr) >= $pageSize
+            'hasNext' => count($orderArr) >= $pageSize
         ];
         return $this->outData(0, 'ok', $data);
     }

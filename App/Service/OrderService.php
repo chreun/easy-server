@@ -23,7 +23,7 @@ class OrderService extends BaseService
     public static function getByLastId($projectId, $lastId, $pageSize) {
         $model = self::db()->where('project_id', $projectId);
         if($lastId > 0) {
-            $model = $model->where('id', '<', $lastId);
+            $model = $model->where('id', $lastId, '<');
         }
         $data = $model->orderBy("id", 'desc')
             ->get(self::TABLE_NAME, $pageSize);
