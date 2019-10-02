@@ -48,6 +48,7 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
             'EasySwoole\\Spl\\Test\\' => 20,
             'EasySwoole\\Spl\\' => 15,
             'EasySwoole\\RedisPool\\' => 21,
+            'EasySwoole\\Pay\\' => 15,
             'EasySwoole\\Mysqli\\' => 18,
             'EasySwoole\\MysqliPool\\Test\\' => 27,
             'EasySwoole\\MysqliPool\\' => 22,
@@ -146,6 +147,10 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
         'EasySwoole\\RedisPool\\' => 
         array (
             0 => __DIR__ . '/..' . '/easyswoole/redis-pool/src',
+        ),
+        'EasySwoole\\Pay\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/easyswoole/pay/src',
         ),
         'EasySwoole\\Mysqli\\' => 
         array (
@@ -389,8 +394,6 @@ class ComposerStaticInit3f96a55959bc7729fa39e9276ccb0e99
         'PHPUnit\\Util\\GlobalState' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/GlobalState.php',
         'PHPUnit\\Util\\InvalidArgumentHelper' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/InvalidArgumentHelper.php',
         'PHPUnit\\Util\\Json' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Json.php',
-        'PHPUnit\\Util\\Log\\JUnit' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Log/JUnit.php',
-        'PHPUnit\\Util\\Log\\TeamCity' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Log/TeamCity.php',
         'PHPUnit\\Util\\PHP\\AbstractPhpProcess' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/PHP/AbstractPhpProcess.php',
         'PHPUnit\\Util\\PHP\\DefaultPhpProcess' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/PHP/DefaultPhpProcess.php',
         'PHPUnit\\Util\\PHP\\WindowsPhpProcess' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/PHP/WindowsPhpProcess.php',

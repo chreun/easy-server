@@ -584,6 +584,49 @@
         ]
     },
     {
+        "name": "easyswoole/pay",
+        "version": "1.2.5",
+        "version_normalized": "1.2.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/easy-swoole/pay.git",
+            "reference": "ecd19fdbf26f9e1c9e365202d90803762fd31205"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/easy-swoole/pay/zipball/ecd19fdbf26f9e1c9e365202d90803762fd31205",
+            "reference": "ecd19fdbf26f9e1c9e365202d90803762fd31205",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "easyswoole/http": "^1.2",
+            "easyswoole/http-client": "^1.2.5",
+            "easyswoole/spl": "^1.1",
+            "easyswoole/utility": "^1.0",
+            "ext-json": ">=1.0",
+            "ext-openssl": ">=1.0"
+        },
+        "time": "2019-06-24T17:20:41+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "EasySwoole\\Pay\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "description": "use online payment easily just like echo \"hello world\";"
+    },
+    {
         "name": "easyswoole/phpunit",
         "version": "1.0.4",
         "version_normalized": "1.0.4.0",
