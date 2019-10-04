@@ -107,7 +107,7 @@
 			detail: {},
 			project_id: 0,
 			value: '',
-			state: ''
+			state: true
 		},
 		methods : {
 			async getBaseData () {
@@ -140,7 +140,7 @@
 		},
 		computed: {
 			total_value: function () {
-				return this.value + 3
+				return this.value + (this.state ? 0 : 3)
 			}
 		}
 	}).$mount('#app');
