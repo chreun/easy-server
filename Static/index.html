@@ -296,7 +296,6 @@
 
 
 <script src="https://cdn.bootcss.com/vue/2.6.9/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/vue-router/3.1.3/vue-router.min.js"></script>
 <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
 <script>
 	const router = new VueRouter({
@@ -318,7 +317,7 @@
 		},
 		methods : {
 			async getBaseData () {
-				const projectId = this.$route.query.id
+				const projectId = this.getRequest('id')
 				let res = await axios.get('api/project?id=' + projectId);
 				this.$nextTick(function () {
 					this.detail = res.data.data
@@ -326,7 +325,7 @@
 				this.moreOrder()
 			},
 			async moreOrder () {
-				const projectId = this.$route.query.id
+				const projectId = this.getRequest('id')
 				let orderRes = await axios.get('api/project/order?id=' + projectId + '&lastId=' + this.order.lastId);
 				if(orderRes.data.code === 0) {
 					let retData = orderRes.data.data
@@ -336,7 +335,21 @@
 				}
 			},
 			toDonate () {
-				window.location.href = '/pay.html?id=' + this.$route.query.id;
+				window.location.href = '/pay.html?id=' + this.getRequest('id');
+			},
+			 getRequest(key) {
+				const url = location.search;
+				const theRequest = new Object();
+				if (url.indexOf("?") !== -1)
+				{
+					var str = url.substr(1);
+					strs = str.split("&");
+					for (var i = 0; i < strs.length; i++)
+					{
+						theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+					}
+				}
+				return theRequest[key];
 			},
 			handleScroll() {
 				//变量scrollTop是滚动条滚动时，距离顶部的距离
