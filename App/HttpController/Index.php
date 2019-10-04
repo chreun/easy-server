@@ -5,6 +5,7 @@ namespace App\HttpController;
 
 
 use App\Common\DbStruct;
+use EasySwoole\WeChat\OfficialAccount\OfficialAccount;
 
 class Index extends Base
 {
@@ -12,6 +13,9 @@ class Index extends Base
 
 
     public function test(){
+
+
+
         return $this->response()->write(json_encode($this->request()->getSwooleRequest()));
     }
 
