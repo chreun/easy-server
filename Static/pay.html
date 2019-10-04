@@ -53,6 +53,7 @@
 					<div id="js_input_border" class="h5ui-help-money h5ui-help-money_v1  money-input-content-bg ">
 						<div class="money-input-content"><input type="tel" id="money-input" value="" class="h5ui-form-input"
 																pattern="[0-9]*" maxlength="6" placeholder="请输入帮助金额"
+																v-model="money"
 																onkeyup="this.value=(this.value.replace(/\D/g,'')==''|| (this.value =value.replace(/\D/g,''))==0?'':value)">
 							<span class="random-change dtstrackclick" data-dta="moneyRandom_v1" id="moneyRandom_v1">元</span></div>
 					</div>
@@ -73,7 +74,7 @@
 						<div class="h5ui-switch-group " data-ind="0" id="insurance">
 							<div class="h5ui-radio_bd"><p class="huzhu_need_renew-disc">限时<span>3元加入</span>，最高可获得30万大病互助金，患大病不愁没钱</p>
 							</div>
-							<div class="check-wrap"><input type="checkbox"  data-ind="0" name="insurance" v-on:click="checkItem(state)" v-model="state"
+							<div class="check-wrap"><input type="checkbox"  data-ind="0" name="insurance" v-on:click="checkItem()" v-model="state"
 														   class="switch activity-checkbox dtstrackclick" data-dta="union_charge">
 								<div class="check-text">我已阅读并同意 <a class="check-link yaoqiu" href="javascript:;">《健康要求》</a><a
 										class="check-link gongyue" href="javascript:;">《行动公约》</a><a class="check-link hz-introduce"
@@ -106,8 +107,8 @@
 		data: {
 			detail: {},
 			project_id: 0,
-			value: '',
-			state: true
+			money: '',
+			state: false
 		},
 		methods : {
 			async getBaseData () {
@@ -131,8 +132,8 @@
 				}
 				return theRequest[key];
 			},
-			checkItem (state) {
-				console.log(state)
+			checkItem () {
+				this.state = !this.state
 			}
 		},
 		created () {
@@ -140,7 +141,7 @@
 		},
 		computed: {
 			total_value: function () {
-				return this.value + (this.state ? 0 : 3)
+				return this.money + (this.state ? 3 : 0)
 			}
 		}
 	}).$mount('#app');
