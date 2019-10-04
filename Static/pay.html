@@ -114,6 +114,8 @@
 		},
 		methods : {
 			async getBaseData () {
+				console.log(this.$route)
+
 				const projectId = this.$route.query.id
 				let res = await axios.get('api/project/info?id=' + projectId);
 				this.$nextTick(function () {
