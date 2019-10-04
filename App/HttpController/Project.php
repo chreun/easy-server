@@ -56,6 +56,11 @@ class Project extends Base
     }
 
 
+    function info(){
+        $id = $this->queryParam('id');
+        $data = ProjectService::find($id);
+        return $this->outData(0, 'ok', $data);
+    }
 
 
 }

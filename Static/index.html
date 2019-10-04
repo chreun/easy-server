@@ -10,12 +10,9 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="format-detection" content="telephone=no">
 
-	<script src="https://cdn.bootcss.com/vue/2.6.9/vue.min.js"></script>
-	<script src="https://cdn.bootcss.com/vue-router/3.1.3/vue-router.min.js"></script>
-	<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+
 
 	<link rel="stylesheet" href="/css/common.css">
-
 	<link rel="stylesheet" href="/css/index.css">
 
 </head>
@@ -297,76 +294,72 @@
 	</footer>
 </div>
 
-</body>
-<script>
-  const router = new VueRouter({
 
-  });
-  const app = new Vue({
-    router,
-    el: '#app',
-    data: {
-    	detail: {},
+<script src="https://cdn.bootcss.com/vue/2.6.9/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-router/3.1.3/vue-router.min.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script>
+	const router = new VueRouter({
+
+	});
+	const app = new Vue({
+		router,
+		el: '#app',
+		data: {
+			detail: {},
 			more_intro: false,
 			more_dynamic: false,
 			project_id: 0,
-      order: {
-        list: [],
+			order: {
+				list: [],
 				lastId: 0,
-        hasNext: false
+				hasNext: false
 			},
 		},
 		methods : {
-      async getBaseData () {
+			async getBaseData () {
 				const projectId = this.$route.query.id
 				let res = await axios.get('api/project?id=' + projectId);
 				this.$nextTick(function () {
 					this.detail = res.data.data
 				})
 				this.moreOrder()
-      },
-      async moreOrder () {
-        const projectId = this.$route.query.id
-        let orderRes = await axios.get('api/project/order?id=' + projectId + '&lastId=' + this.order.lastId);
-        if(orderRes.data.code === 0) {
+			},
+			async moreOrder () {
+				const projectId = this.$route.query.id
+				let orderRes = await axios.get('api/project/order?id=' + projectId + '&lastId=' + this.order.lastId);
+				if(orderRes.data.code === 0) {
 					let retData = orderRes.data.data
-          this.order.list = this.order.list.concat(retData.list)
-          this.order.lastId = retData.lastId
-          this.order.hasNext = retData.hasNext
+					this.order.list = this.order.list.concat(retData.list)
+					this.order.lastId = retData.lastId
+					this.order.hasNext = retData.hasNext
 				}
 			},
 			toDonate () {
-        window.location.href = '/pay.html?id=' + this.$route.query.id;
+				window.location.href = '/pay.html?id=' + this.$route.query.id;
 			},
-      handleScroll() {
-        //变量scrollTop是滚动条滚动时，距离顶部的距离
-        let scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop; //变量windowHeight是可视区的高度
-        let windowHeight =
-          document.documentElement.clientHeight || document.body.clientHeight; //变量scrollHeight是滚动条的总高度
-        let scrollHeight =
-          document.documentElement.scrollHeight || document.body.scrollHeight; //滚动条到底部的条件
-        if (scrollTop + windowHeight === scrollHeight && this.order.hasNext) {
-           this.moreOrder()
-        }
-      }
+			handleScroll() {
+				//变量scrollTop是滚动条滚动时，距离顶部的距离
+				let scrollTop =
+						document.documentElement.scrollTop || document.body.scrollTop; //变量windowHeight是可视区的高度
+				let windowHeight =
+						document.documentElement.clientHeight || document.body.clientHeight; //变量scrollHeight是滚动条的总高度
+				let scrollHeight =
+						document.documentElement.scrollHeight || document.body.scrollHeight; //滚动条到底部的条件
+				if (scrollTop + windowHeight === scrollHeight && this.order.hasNext) {
+					this.moreOrder()
+				}
+			}
 		},
 		created () {
 			this.getBaseData()
-  	},
+		},
 		mounted () {
-      window.addEventListener('scroll', this.handleScroll)
+			window.addEventListener('scroll', this.handleScroll)
 		}
-  }).$mount('#app');
-
-
-
-
-
+	}).$mount('#app');
 </script>
-
-
-
+</body>
 </html>
 
 
