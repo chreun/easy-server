@@ -94,7 +94,7 @@
 	<footer class="h5ui-bar h5ui-bar_v1 bar-fixed support_bar_total" id="pay-submit">
 		<div class="h5ui-bar-left"><p class="h5ui-bar-title">合计 : <span class="text-danger"  v-cloak>{{total_value}}</span> 元</p></div>
 		<div class="h5ui-bar-right">
-			<button class="h5ui-btn h5ui-btn_default btn-small-green dtstrackclick" data-dta="donateBtnClick.b">确认支付</button>
+			<button class="h5ui-btn h5ui-btn_default btn-small-green dtstrackclick" v-on:click="callpay">确认支付</button>
 		</div>
 	</footer>  <!-- 二维码支付弹窗 start -->
 </div>
@@ -135,7 +135,37 @@
 			},
 			checkItem () {
 				this.state = !this.state
-			}
+			},
+			jsApiCall(param) {
+				WeixinJSBridge.invoke(
+						'getBrandWCPayRequest',
+						{'appId': param.appId,
+							'nonceStr':param.nonceStr,
+							'package':param.package,
+							'signType':param.signType,
+							'timeStamp':param.timeStamp,
+							'paySign':param.paySign
+						},
+						function (res) {
+							WeixinJSBridge.log(res.err_msg);
+							alert(res.err_code + res.err_desc + res.err_msg);
+						}
+				);
+			},
+		 callpay() {
+
+
+			 if (typeof WeixinJSBridge == "undefined") {
+				 if (document.addEventListener) {
+					 document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+				 } else if (document.attachEvent) {
+					 document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+					 document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+				 }
+			 } else {
+				 this.jsApiCall();
+			 }
+		 }
 		},
 		created () {
 			this.getBaseData()

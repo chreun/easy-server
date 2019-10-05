@@ -67,7 +67,9 @@ class Base extends Controller
         return true;
     }
 
-
+    protected function generateToken(){
+        return md5(uniqid(rand(10, 50000)) . rand(10000, 99999));
+    }
 
 
 }

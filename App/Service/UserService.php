@@ -18,10 +18,19 @@ class UserService extends BaseService
 
     public static function addUser($data){
         $data['create_at'] = self::localtime();
-        $data['user_type'] = self::USER_TYPE_VIRTUAL;
         $data['password'] = password_hash(123456, PASSWORD_BCRYPT);;
         $insert_id = self::create($data);
         return $insert_id;
+    }
+
+    public static function addRealUser($data){
+        $data['user_type'] = self::USER_TYPE_COMMON;
+        return self::addUser($data);
+    }
+
+    public static function addVirtualUser($data){
+        $data['user_type'] = self::USER_TYPE_VIRTUAL;
+        return self::addUser($data);
     }
 
 
@@ -40,9 +49,7 @@ class UserService extends BaseService
 
 
     public static function getUserByField($filed, $val) {
-        $ret = self::db()->where($filed, $val)->getOne(self::TABLE_NAME, self::exposeFiled());
-        $ret && $ret['portrait'] = self::formatImage($ret['portrait']);
-        return $ret;
+        return self::db()->where($filed, $val)->getOne(self::TABLE_NAME, self::exposeFiled());
     }
 
 
@@ -116,7 +123,7 @@ class UserService extends BaseService
     public static function getIdByToken(string $token) {
         $userInfo = self::getUserByField('token', $token);
         if(time() - strtotime($userInfo['last_login']) > 86400 * 30) {
-            return null;
+            //return null;
         }
         return $userInfo;
     }

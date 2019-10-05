@@ -10,6 +10,7 @@
         "easyswoole/redis-pool": "^1.0",
         "easyswoole/mysqli-pool": "^1.0",
         "ext-redis": "*",
-        "easyswoole/pay": "^1.2"
+        "easyswoole/pay": "^1.2",
+        "ext-curl": "*"
     }
 }

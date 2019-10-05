@@ -32,7 +32,7 @@ class BaseService
         try {
             return Mysql::getInstance()->pool('mysql')::defer();
         } catch (\Exception $e) {
-            return self::log()->error("db error :" . $e->getMessage() . $e->getFile() . $e->getLine());
+            return self::logError("db error :" . $e->getMessage() . $e->getFile() . $e->getLine());
         }
     }
 
@@ -43,7 +43,7 @@ class BaseService
         try {
             return Redis::getInstance()->pool('redis')::defer();
         } catch (\Exception $e) {
-            return self::log()->error("redis error :" . $e->getMessage() . $e->getFile() . $e->getLine());
+            return self::logError("redis error :" . $e->getMessage() . $e->getFile() . $e->getLine());
         }
     }
 
@@ -62,7 +62,7 @@ class BaseService
             return  self::db()->where(static::PRIMARY_NAME, $id)
                 ->getOne(static::TABLE_NAME, $column);
         } catch (\Exception $e) {
-            self::log()->error("find error: " . static::TABLE_NAME . ':' . $id);
+            self::logError("find error: " . static::TABLE_NAME . ':' . $id);
             return null;
         }
     }
@@ -86,7 +86,7 @@ class BaseService
         try{
             return self::db()->insert(static::TABLE_NAME, $data);
         }catch (\Exception $e) {
-            self::log()->error('insert error:' . static::TABLE_NAME . $e->getMessage() . $e->getFile() . $e->getLine());
+            self::logError('insert error:' . static::TABLE_NAME . $e->getMessage() . $e->getFile() . $e->getLine());
             return null;
         }
     }
@@ -102,7 +102,7 @@ class BaseService
         try{
             return self::db()->where('id', $id)->update(static::TABLE_NAME, $data);
         }catch (\Exception $e) {
-            self::log()->error('update error:' . static::TABLE_NAME . $e->getMessage() . $e->getFile() . $e->getLine());
+            self::logError('update error:' . static::TABLE_NAME . $e->getMessage() . $e->getFile() . $e->getLine());
             return null;
         }
     }
@@ -119,13 +119,18 @@ class BaseService
         return self::db()->whereIn('id', $ids)->get(static::TABLE_NAME, null, $column);
     }
 
+
     /**
-     * @return Logger
+     * @param $msg
      */
-    public static function log(){
-        return Logger::getInstance();
+    public static function logError($msg){
+        return Logger::getInstance()->error($msg);
     }
 
+
+    public static function logInfo($msg){
+        return Logger::getInstance()->info($msg);
+    }
 
     /**
      * @param $page
@@ -139,9 +144,6 @@ class BaseService
 
     }
 
-    public static function baseUri(){
-        return Config::getInstance()->getConf('BASE_HOST');
-    }
 
 
     public static function formatImage($str){
@@ -173,6 +175,30 @@ class BaseService
             }
         }
         return '';
+    }
+
+
+    public static function curlGet($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60 );
+        $dom = curl_exec($ch);
+        curl_close($ch);
+        return $dom;
+    }
+
+
+    public static function curlPost($url, $postData)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($curl);
+        return $result;
     }
 
 }

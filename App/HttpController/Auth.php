@@ -70,14 +70,11 @@ class Auth extends Base
             $this->outData(204, "登录失败,密码错误");
             return;
         }
-        $token = $this->generateToken($userId);
+        $token = $this->generateToken();
         UserService::saveToken($userId, $token);
         $this->outData(0, "ok", ['token' => $token, 'userInfo' => $userInfo]);
     }
 
-    private function generateToken($userId){
-        return md5(uniqid($userId) . rand(10000, 99999));
-    }
 
 
     public function upload(){

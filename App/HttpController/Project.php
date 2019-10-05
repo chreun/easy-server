@@ -31,13 +31,7 @@ class Project extends Base
         foreach (['collect_count', 'attain_amount', 'need_amount'] as $k) {
             $data[$k] = number_format($data[$k]);
         }
-        $imageArr = (array)BaseService::formatImage($data['image_list']);
-        $list = [];
-        foreach ($imageArr as $k => $i) {
-            $list[$k]['name'] = $k;
-            $list[$k]['url'] = $i;
-        }
-        $data['image_list'] = $list;
+        $data['image_list'] = (array)BaseService::formatImage($data['image_list']);
         return $this->outData(0, '', $data);
     }
 

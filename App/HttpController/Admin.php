@@ -8,6 +8,7 @@ use App\Service\DynamicService;
 use App\Service\OrderService;
 use App\Service\ProjectService;
 use App\Service\ProveService;
+use App\Service\SysConfService;
 use App\Service\UserService;
 
 class Admin extends Base
@@ -26,7 +27,7 @@ class Admin extends Base
         $page = $this->queryParam("page", 1);
         $data['list'] = ProjectService::paginate($page);
         foreach ($data['list']  as $k => $v) {
-            $data['list'][$k]['url'] = rtrim(BaseService::baseUri(), '/') . '/#/project?id=' . $v['id'];
+            $data['list'][$k]['url'] = rtrim(SysConfService::baseUri(), '/') . '/#/project?id=' . $v['id'];
         }
         $data['page'] = $page;
         return $this->outData(0, '', $data);
@@ -50,9 +51,19 @@ class Admin extends Base
         if(empty($data['portrait'] ?? '')) {
             return $this->outData(102, '请上传头像');
         }
-        $userId =  UserService::addUser($data);
+        $userId =  UserService::addVirtualUser($data);
         return $this->outData(0, '新增成功', ['user_id' => $userId]);
     }
+
+
+    public function confAdd(){
+        $data = $this->request()->getParsedBody();
+        foreach ($data as $k => $v) {
+            SysConfService::saveValByKey($k, $v);
+        }
+        return $this->outData(0, '修改成功', []);
+    }
+
 
 
     public function projectAdd(){
