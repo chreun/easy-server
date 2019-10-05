@@ -333,12 +333,13 @@
 			toDonate () {
 				window.location.href = '/pay.html?id=' + this.getRequest('id');
 			},
-			 getRequest(key) {
-				const url = location.search;
+			getRequest(key) {
+				const url = location.href;
 				const theRequest = new Object();
-				if (url.indexOf("?") !== -1)
+				const idx = url.indexOf("?")
+				if (idx !== -1)
 				{
-					var str = url.substr(1);
+					var str = url.substr(idx + 1);
 					strs = str.split("&");
 					for (var i = 0; i < strs.length; i++)
 					{

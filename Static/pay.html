@@ -122,10 +122,9 @@
 				const url = location.href;
 				const theRequest = new Object();
 				const idx = url.indexOf("?")
-				console.log(url.substr(idx))
 				if (idx !== -1)
 				{
-					var str = url.substr(idx);
+					var str = url.substr(idx + 1);
 					strs = str.split("&");
 					for (var i = 0; i < strs.length; i++)
 					{
