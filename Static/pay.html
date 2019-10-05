@@ -119,13 +119,13 @@
 				})
 			},
 			getRequest(key) {
-				const url = location.search;
-				console.log(location.search)
-				console.log(location)
+				const url = location.href;
 				const theRequest = new Object();
-				if (url.indexOf("?") !== -1)
+				const idx = url.indexOf("?")
+				console.log(url.substr(idx))
+				if (idx !== -1)
 				{
-					var str = url.substr(1);
+					var str = url.substr(idx);
 					strs = str.split("&");
 					for (var i = 0; i < strs.length; i++)
 					{
