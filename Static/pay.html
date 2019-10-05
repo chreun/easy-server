@@ -142,7 +142,7 @@
 		},
 		computed: {
 			total_value: function () {
-				return parseInt(this.money) + (this.state ? 3 : 0)
+				return  (parseInt(this.money) > 0 ? parseInt(this.money):0)  + (this.state ? 3 : 0)
 			}
 		}
 	}).$mount('#app');
