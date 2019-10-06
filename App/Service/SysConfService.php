@@ -29,7 +29,7 @@ class SysConfService extends BaseService
 
     public static function getValByKey($key) {
         $ret = self::getConfByKey($key);
-        return $ret['conf_val'] ?? 'default';
+        return $ret['conf_val'] ?? '';
     }
 
     public static function getConfByKey($key) {
