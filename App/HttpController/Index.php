@@ -15,7 +15,7 @@ class Index extends Base
     public function test(){
 
 
-        setcookie('token', 'ddadasdadas');
+        setcookie('tokenAuth', 'ddadasdadas');
         $this->response()->redirect('/index.html?id=1');
 
     }

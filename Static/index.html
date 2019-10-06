@@ -331,11 +331,17 @@
 					this.order.hasNext = retData.hasNext
 				}
 			},
+			async toWxCode () {
+				axios.get('api/wechat/getCode');
+			},
+
+
 			toDonate () {
-				if( Cookies.get('token') === undefined) {
-					axios.get('api/wechat/getCode');
+				if( Cookies.get('tokenAuth') === undefined) {
+					this.toWxCode();
+				} else {
+					window.location.href = '/pay.html?id=' + this.getRequest('id');
 				}
-				window.location.href = '/pay.html?id=' + this.getRequest('id');
 			},
 			getRequest(key) {
 				const url = location.href;
