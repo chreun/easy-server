@@ -53,6 +53,7 @@ class Project extends Base
     function info(){
         $id = $this->queryParam('id');
         $data = ProjectService::find($id);
+        $data['image_list'] = (array)BaseService::formatImage($data['image_list']);
         return $this->outData(0, 'ok', $data);
     }
 

@@ -147,7 +147,7 @@ class UserService extends BaseService
         foreach ($data as $k => $v) {
             $data[$k]['user_name'] = $userInfo[$v['user_id']]['username'] ?? '';
             $data[$k]['real_name'] = $userInfo[$v['user_id']]['real_name'] ?? '';
-            $data[$k]['portrait'] = self::formatImage($userInfo[$v['user_id']]['portrait'] ?? '');
+            $data[$k]['portrait'] = $userInfo[$v['user_id']]['portrait'] ?? '';
         }
         return $data;
     }

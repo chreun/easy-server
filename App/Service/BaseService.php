@@ -147,15 +147,8 @@ class BaseService
 
 
     public static function formatImage($str){
-        if(empty($str)) return $str;
-        if(strpos($str, ',') !== false) {
-            $arr = explode(',', $str);
-            foreach ($arr as  $k => $v) {
-                $arr[$k] = $v;
-            }
-            return $arr;
-        }
-        return $str;
+        if(empty($str)) return [];
+        return array_filter(explode(',', $str));
     }
 
     public static function formatDate($time){
