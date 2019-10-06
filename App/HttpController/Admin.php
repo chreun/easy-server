@@ -155,4 +155,10 @@ class Admin extends Base
         $rand = rand(0, count($userArr) - 1);
         return $userArr[$rand]['id'];
     }
+
+
+    public function sysConf(){
+        return $this->outData(0, '新增成功', array_column(SysConfService::all(), 'conf_val', 'conf_key'));
+
+    }
 }
