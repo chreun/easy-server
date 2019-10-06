@@ -27,7 +27,7 @@ class Admin extends Base
         $page = $this->queryParam("page", 1);
         $data['list'] = ProjectService::paginate($page);
         foreach ($data['list']  as $k => $v) {
-            $data['list'][$k]['url'] = rtrim(SysConfService::baseUri(), '/') . '/#/project?id=' . $v['id'];
+            $data['list'][$k]['url'] = SysConfService::baseUri() . '/#/project?id=' . $v['id'];
         }
         $data['page'] = $page;
         return $this->outData(0, '', $data);
