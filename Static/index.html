@@ -332,9 +332,11 @@
 				}
 			},
 			toDonate () {
+				console.log(Cookies.get('name11'))
 
-				Cookies.set('name', 'value');
-				console.log(Cookies.get('name'))
+				if( Cookies.get('name')) {
+
+				}
 				window.location.href = '/pay.html?id=' + this.getRequest('id');
 			},
 			getRequest(key) {

@@ -15,8 +15,9 @@ class Index extends Base
     public function test(){
 
 
+        setcookie('token', 'ddadasdadas');
+        $this->response()->redirect('/index.html?id=1');
 
-        return $this->response()->write(json_encode($this->request()->getSwooleRequest()));
     }
 
 }
