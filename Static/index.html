@@ -297,6 +297,7 @@
 
 <script src="https://cdn.bootcss.com/vue/2.6.9/vue.min.js"></script>
 <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/js-cookie/2.2.1/js.cookie.min.js"></script>
 <script>
 	const app = new Vue({
 		el: '#app',
@@ -331,6 +332,9 @@
 				}
 			},
 			toDonate () {
+
+				Cookies.set('name', 'value');
+				console.log(Cookies.get('name'))
 				window.location.href = '/pay.html?id=' + this.getRequest('id');
 			},
 			getRequest(key) {
