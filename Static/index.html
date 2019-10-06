@@ -332,10 +332,8 @@
 				}
 			},
 			toDonate () {
-				console.log(Cookies.get('name11'))
-
-				if( Cookies.get('name')) {
-
+				if( Cookies.get('token') === undefined) {
+					axios.get('api/wechat/getCode');
 				}
 				window.location.href = '/pay.html?id=' + this.getRequest('id');
 			},
