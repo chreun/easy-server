@@ -77,7 +77,13 @@ class Admin extends Base
         if(empty($data['image_list'] ?? [])) {
             return $this->outData(103, '请上传证明图片');
         }
-        $userId =  ProjectService::addProject($data);
+        $userId = $data['id'] ?? 0;
+        unset($data['id']);
+        if($userId > 0) {
+            ProjectService::save($userId, $data);
+        } else {
+            $userId =  ProjectService::addProject($data);
+        }
         return $this->outData(0, '新增成功', ['user_id' => $userId]);
     }
 
