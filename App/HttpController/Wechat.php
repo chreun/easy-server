@@ -47,7 +47,7 @@ class Wechat extends Base
         //$scope='snsapi_base';
         $arr['state'] = 'STATE';
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?' . http_build_query($arr) . '#wechat_redirect';
-        $this->response()->redirect($url);
+        $this->outData(0, '', $url);
     }
 
 

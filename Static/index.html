@@ -331,14 +331,15 @@
 					this.order.hasNext = retData.hasNext
 				}
 			},
-			async toWxCode () {
-				axios.get('api/wechat/getCode');
+			async wxCodeUrl () {
+				let ret = axios.get('api/wechat/getCode');
+				return ret.data;
 			},
 
 
 			toDonate () {
 				if( Cookies.get('tokenAuth') === undefined) {
-					this.toWxCode();
+					window.location.href = this.wxCodeUrl();
 				} else {
 					window.location.href = '/pay.html?id=' + this.getRequest('id');
 				}
