@@ -23,7 +23,7 @@ class SysConfService extends BaseService
 
 
     public static function baseUri(){
-        return self::getValByKey('base_host');
+        return self::getValByKey('base_uri');
     }
 
 
