@@ -333,7 +333,7 @@
 			},
 			async wxCodeUrl () {
 				let ret = axios.get('api/wechat/getCode');
-				return ret.data;
+				return ret.data.data;
 			},
 
 
