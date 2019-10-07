@@ -4,11 +4,10 @@ namespace App\HttpController;
 
 
 
-use App\Common\DbStruct;
-use App\Service\SysConfService;
-use EasySwoole\WeChat\OfficialAccount\OfficialAccount;
 
-class Index extends Base
+use App\Service\SysConfService;
+
+class Index1 extends Base
 {
     protected $needAuth = false;
 
