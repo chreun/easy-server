@@ -15,9 +15,10 @@ class Index extends Base
 
     public function test(){
 
-        SysConfService::getConfByKey('asdas');
+        $data = SysConfService::getConfByKey('base_uri');
         setcookie('tokenAuth1', '1111111111111111111111111111111111');
-        $this->response()->redirect('/index.html?id=1');
+        return $this->outData(0, '', $data);
+
 
     }
 
