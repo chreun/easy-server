@@ -1,7 +1,7 @@
 version: "3"
 services:
   nginx:
-    build: ./nginx
+    image: chreun/deploy_nginx
     depends_on:
       - php
     networks:
@@ -18,10 +18,7 @@ services:
     depends_on:
       - mysql
       - redis
-    build: ./php
-    stdin_open: true
-    tty: true
-    user: root
+    image: chreun/deploy_php
     working_dir: /var/www
     entrypoint: ['php', 'easyswoole', 'start']
     networks:
