@@ -34,7 +34,7 @@ class Wechat extends Base
 
         $officialAccount = new OfficialAccount();
         $officialAccount->setOpenid($userInfo['openid']);
-        $officialAccount->setOutTradeNo($orderId);
+        $officialAccount->setOutTradeNo($orderId + 10000000);
         $officialAccount->setBody('开始支付:' . $orderId);
         $officialAccount->setTotalFee(intval($totalFee * 100));
         $officialAccount->setSpbillCreateIp($this->request()->getHeader('x-real-ip')[0]);
