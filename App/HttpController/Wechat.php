@@ -108,7 +108,7 @@ class Wechat extends Base
         $wechatConfig->setAppId(SysConfService::wxAppId());
         $wechatConfig->setMchId(SysConfService::wxMchId());
         $wechatConfig->setKey(SysConfService::wxApiKey());
-        $wechatConfig->setNotifyUrl(SysConfService::baseUri() . '/wechat/payCallback');
+        $wechatConfig->setNotifyUrl(SysConfService::baseUri() . '/api/wechat/payCallback');
         $wechatConfig->setApiClientCert($baseDir . "/Cert/apiclient_cert.pem");//客户端证书
         $wechatConfig->setApiClientKey($baseDir . "/Cert/apiclient_key.pem"); //客户端证书秘钥
     }
