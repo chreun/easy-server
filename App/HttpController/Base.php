@@ -26,7 +26,7 @@ class Base extends Controller
             }
             $userInfo = UserService::getUserByToken($token);
             if(empty($userInfo)) {
-                $this->outData(100, "登录已过期");
+                $this->outData(100, "登录已过期,可能其他人登录挤掉线");
                 return false;
             }
             $this->curUserId = $userInfo['id'];
