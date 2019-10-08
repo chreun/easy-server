@@ -38,8 +38,6 @@ class Wechat extends Base
             'encourage' => '加油加油!!!',
         ]);
 
-        BaseService::logInfo("PAY_PARAM:" . $this->wechatConfig());
-
         $officialAccount = new OfficialAccount();
         $officialAccount->setOpenid($userInfo['openid']);
         $officialAccount->setOutTradeNo($orderId);
@@ -48,7 +46,7 @@ class Wechat extends Base
         $officialAccount->setSpbillCreateIp($this->request()->getHeader('x-real-ip')[0]);
         $pay = new Pay();
         $params = $pay->weChat($this->wechatConfig())->officialAccount($officialAccount);
-
+        BaseService::logInfo("PAY_PARAM:" . json_encode($params));
         return $this->outData(0, '', $params->toArray());
     }
 
@@ -120,6 +118,7 @@ class Wechat extends Base
         $wechatConfig->setNotifyUrl(SysConfService::baseUri() . '/api/wechat/payCallback');
         $wechatConfig->setApiClientCert($baseDir . "/Cert/apiclient_cert.pem");//客户端证书
         $wechatConfig->setApiClientKey($baseDir . "/Cert/apiclient_key.pem"); //客户端证书秘钥
+        return $wechatConfig;
     }
 
     public function payCallback(){
