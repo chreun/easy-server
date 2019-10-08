@@ -39,7 +39,7 @@ class UserService extends BaseService
      * @return string
      */
     public static function exposeFiled(){
-        return 'id,username,mobile,portrait,user_type,last_login';
+        return 'id,username,mobile,portrait,user_type,last_login,openid';
     }
 
 
@@ -120,7 +120,7 @@ class UserService extends BaseService
      * @param string $token
      * @return int|null
      */
-    public static function getIdByToken(string $token) {
+    public static function getUserByToken(string $token) {
         $userInfo = self::getUserByField('token', $token);
         if(time() - strtotime($userInfo['last_login']) > 86400 * 30) {
             //return null;

@@ -26,15 +26,21 @@ class Wechat extends Base
             'amount' => $totalFee,
             'encourage' => '加油加油!!!',
         ]);
+        $token = $this->request()->getCookieParams("authToken");
+        if(empty($token)) {
+            return $this->outData(100, 'token状态异常');
+        }
+        $userInfo = UserService::getUserByToken($token);
 
         $officialAccount = new OfficialAccount();
-        $officialAccount->setOpenid('xxxxxxx');
+        $officialAccount->setOpenid($userInfo['openid']);
         $officialAccount->setOutTradeNo($orderId);
         $officialAccount->setBody('开始支付:' . $orderId);
         $officialAccount->setTotalFee(intval($totalFee * 100));
         $officialAccount->setSpbillCreateIp($this->request()->getHeader('x-real-ip')[0]);
         $pay = new Pay();
         $params = $pay->weChat($this->wechatConfig())->officialAccount($officialAccount);
+        return $this->outData(0, '', $params);
     }
 
 

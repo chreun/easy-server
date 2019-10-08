@@ -24,7 +24,7 @@ class Base extends Controller
                 $this->outData(100, "用户未登录");
                 return false;
             }
-            $userInfo = UserService::getIdByToken($token);
+            $userInfo = UserService::getUserByToken($token);
             if(empty($userInfo)) {
                 $this->outData(100, "登录已过期");
                 return false;
