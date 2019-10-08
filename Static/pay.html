@@ -130,8 +130,10 @@
 			},
 
       async getPayParam() {
-        let res = await axios.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value);
-				return res.data.data
+        const res = await axios.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value);
+        console.log(111)
+        console.log(res)
+        return res.data.data
       },
 			getRequest(key) {
 				const url = location.href;
@@ -153,7 +155,8 @@
 			},
 			jsApiCall() {
 				const param = this.getPayParam()
-				alert(param)
+				console.log(222)
+        console.log(param)
 				WeixinJSBridge.invoke(
 						'getBrandWCPayRequest',
 						{
