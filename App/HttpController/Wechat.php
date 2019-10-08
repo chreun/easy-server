@@ -20,7 +20,7 @@ class Wechat extends Base
 
     public function pay(){
         $totalFee = $this->queryParam('total_fee', 0);
-        $projectId = $this->queryParam('project_id');
+        $projectId = $this->queryParam('id');
         $orderId = OrderService::addOrder([
             'project_id' => $projectId,
             'amount' => $totalFee,
