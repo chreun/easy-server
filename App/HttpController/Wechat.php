@@ -85,12 +85,18 @@ class Wechat extends Base
             'portrait' => $wxUserArr['headimgurl']
         ];
         $userInfo = UserService::getUserByField('openid', $openid);
+
+
+
         if(empty($userInfo)) {
             $userId = UserService::addRealUser($updateData);
         } else {
             $userId = $userInfo['id'];
             UserService::save($userId, $updateData);
         }
+
+        BaseService::logInfo("WX_USER_INFO:" . json_encode(['openid' => $openid, 'wx_user' => $wxUser, 'user_id' => $userId]));
+
 
         $token = $this->generateToken();
         UserService::saveToken($userId, $token);
