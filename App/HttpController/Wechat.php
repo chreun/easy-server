@@ -15,13 +15,12 @@ use EasySwoole\Pay\WeChat\RequestBean\OfficialAccount;
 class Wechat extends Base
 {
 
+    protected $needAuth = false;
+
+
     public function pay(){
-
-
-
         $totalFee = $this->queryParam('total_fee', 0);
         $projectId = $this->queryParam('project_id');
-
         $orderId = OrderService::addOrder([
             'project_id' => $projectId,
             'amount' => $totalFee,
