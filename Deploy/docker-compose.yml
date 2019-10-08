@@ -19,7 +19,6 @@ services:
       - mysql
       - redis
     image: easyswoole/easyswoole3
-    working_dir: /var/www
     entrypoint: ['php', 'easyswoole', 'start']
     networks:
       - cgi
