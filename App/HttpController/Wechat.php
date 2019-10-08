@@ -21,21 +21,23 @@ class Wechat extends Base
     public function pay(){
         $totalFee = $this->queryParam('total_fee', 0);
         $projectId = $this->queryParam('id');
-        $orderId = OrderService::addOrder([
-            'project_id' => $projectId,
-            'amount' => $totalFee,
-            'encourage' => '加油加油!!!',
-        ]);
-
-
-        BaseService::logInfo("BEGIN_PAY:" . json_encode(['order_id' => $orderId, 'total' => $totalFee]));
-
-
         $token = $this->request()->getCookieParams("authToken");
         if(empty($token)) {
             return $this->outData(100, 'token状态异常');
         }
         $userInfo = UserService::getUserByToken($token);
+        if(empty($userInfo)) {
+            return $this->outData(101, '获取用户状态异常');
+        }
+
+        $orderId = OrderService::addOrder([
+            'user_id' => $userInfo['id'],
+            'project_id' => $projectId,
+            'amount' => $totalFee,
+            'encourage' => '加油加油!!!',
+        ]);
+
+        BaseService::logInfo("BEGIN_PAY:" . json_encode(['order_id' => $orderId, 'total' => $totalFee]));
 
         $officialAccount = new OfficialAccount();
         $officialAccount->setOpenid($userInfo['openid']);
