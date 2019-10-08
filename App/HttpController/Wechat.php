@@ -88,6 +88,7 @@ class Wechat extends Base
 
         $token = $this->generateToken();
         UserService::saveToken($userId, $token);
+        setcookie("authToken", $token, 0, '/');
         $this->response()->redirect("/pay.html?id={$projectId}");
     }
 
