@@ -126,7 +126,7 @@
 			},
 
       async getPayParam() {
-        let res = await axios.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value());
+        let res = await axios.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value);
 				return res.data.data
       },
 			getRequest(key) {
