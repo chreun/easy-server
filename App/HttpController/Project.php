@@ -20,6 +20,18 @@ class Project extends Base
         $project_id = $this->queryParam("id");
         $data = ProjectService::find($project_id);
         $orderList = OrderService::getByProject($project_id);
+        $rankTmp = [];
+        foreach ($orderList as $order) {
+            isset($rankTmp[$order['user_id']]) or $rankTmp[$order['user_id']] = 0;
+            $rankTmp[$order['user_id']] += $order['amount'];
+        }
+        arsort($rankTmp);
+        $rankUser = [];
+        $i = 0;
+        foreach (array_slice($rankTmp, 0, 4, true) as  $k => $r) {
+            $rankUser[] = ['user_id' => $k, 'class' => 'corwn-wrap0' . (string)$i++];
+        }
+        $data['rank_user'] = UserService::mergeUserInfo($rankUser);
         $data['attain_amount'] = array_sum(array_column($orderList, 'amount'));
         $data['collect_count'] = count($orderList);
         $data['person_count'] = count(array_unique(array_column($orderList, 'user_id')));

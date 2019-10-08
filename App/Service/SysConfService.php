@@ -40,6 +40,10 @@ class SysConfService extends BaseService
         return self::getValByKey('wx_app_id');
     }
 
+    public static function wxToken(){
+        return self::getValByKey('wx_token');
+    }
+
     public static function wxMchId(){
         return self::getValByKey('wx_mch_id');
     }

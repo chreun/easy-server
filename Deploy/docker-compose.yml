@@ -18,8 +18,7 @@ services:
     depends_on:
       - mysql
       - redis
-    image: chreun/deploy_php
-    working_dir: /var/www
+    image: easyswoole/easyswoole3
     entrypoint: ['php', 'easyswoole', 'start']
     networks:
       - cgi
@@ -29,7 +28,7 @@ services:
       - "9501:9501"
     restart: always
     volumes:
-      - /data/www/:/var/www/
+      - /data/www/:/easyswoole
   mysql:
     image: mysql:5.7.27
     networks:

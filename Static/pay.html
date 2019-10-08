@@ -9,12 +9,10 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="shortcut icon" href="//static2.qschou.com/img/v7/common/favicon.ico">
-	<link rel="”apple-touch-icon”" href="//static2.qschou.com/img/v7/logo144.png">
 	<link rel="stylesheet" href="/css/common.css">
 	<link rel="stylesheet" href="/css/pay.main.css">
 	<style type="text/css">.fancybox-margin {
-		margin-right: 0px;
+		margin-right: 0;
 	}</style>
 	<style
 			type="text/css">.ls-pop-sel .ls-verify-notice-green, .ls-main-content .ls-voice button, .ls-main-login .ls-agreement a, .ls-pop-verify p span, .ls-pop-sel .ls-verify-notice-green, .ls-agreement-detail .ft, .ls-main-content .ls-countdown {
@@ -94,13 +92,15 @@
 	<footer class="h5ui-bar h5ui-bar_v1 bar-fixed support_bar_total" id="pay-submit">
 		<div class="h5ui-bar-left"><p class="h5ui-bar-title">合计 : <span class="text-danger"  v-cloak>{{total_value}}</span> 元</p></div>
 		<div class="h5ui-bar-right">
-			<button class="h5ui-btn h5ui-btn_default btn-small-green dtstrackclick" v-on:click="callpay">确认支付</button>
+			<button class="h5ui-btn h5ui-btn_default btn-small-green dtstrackclick" v-on:click="callPay">确认支付</button>
 		</div>
 	</footer>  <!-- 二维码支付弹窗 start -->
 </div>
 
 <script src="https://cdn.bootcss.com/vue/2.6.9/vue.min.js"></script>
 <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/js-cookie/2.2.1/js.cookie.min.js"></script>
+
 <script>
 	const app = new Vue({
 		el: '#app',
@@ -111,13 +111,22 @@
 			state: false
 		},
 		methods : {
-			async getBaseData () {
-				const projectId = this.getRequest('id')
-				let res = await axios.get('api/project/info?id=' + projectId);
+			async getPayData () {
+				this.project_id = this.getRequest('id')
+				const token = this.getRequest('token')
+        if(token !== undefined && token.length === 32) {
+          Cookies.set('tokenAuth', token, { expires: 30, path: '/'});
+				}
+				let res = await axios.get('api/project/info?id=' + this.project_id);
 				this.$nextTick(function () {
 					this.detail = res.data.data
 				})
 			},
+
+      async getPayParam() {
+        let res = await axios.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value);
+				return res.data.data
+      },
 			getRequest(key) {
 				const url = location.href;
 				const theRequest = new Object();
@@ -136,7 +145,8 @@
 			checkItem () {
 				this.state = !this.state
 			},
-			jsApiCall(param) {
+			jsApiCall() {
+				const param = this.getPayParam()
 				WeixinJSBridge.invoke(
 						'getBrandWCPayRequest',
 						{'appId': param.appId,
@@ -152,7 +162,7 @@
 						}
 				);
 			},
-		 callpay() {
+		 callPay() {
 			 if (typeof WeixinJSBridge == "undefined") {
 				 if (document.addEventListener) {
 					 document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
@@ -166,7 +176,7 @@
 		 }
 		},
 		created () {
-			this.getBaseData()
+			this.getPayData()
 		},
 		computed: {
 			total_value: function () {

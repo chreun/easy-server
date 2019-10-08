@@ -102,8 +102,6 @@
 							<li  v-for="prove in detail.prove_lists" class="active  J-prove-avatar"><a href="javascript:;">
 								<img class="lazy-load" v-bind:src="prove.portrait"></a>
 							</li>
-
-							<!-- {@#if prove_total>5}                             <li class="omit">                                 <a id="prove_list_btn" href="/project/manage/prove_v7.html?uuid=5006e81c-78e8-4c6a-bf8c-798a3b95e63d" >                                     <img class="lazy-load" src="//static2.qschou.com/img/v7/project/detail/sick/artboard2.jpg">                                 </a>                             </li>                         {@#/if} -->
 							<li><a id="go_more_prove" class="go_more" href="javascript:;"> </a></li>
 						</ul>
 					</section>
@@ -231,18 +229,10 @@
 							<header class="help-bh"><span class="ifont-green">{{detail.person_count}}</span>人帮助过</header>
 							<section class="box-ranking"><a id="wrap_love_list_arrow" href="javascript:;">
 								<div class="u-rank"><h6><span>爱心贡献榜</span></h6>
-									<p id="love_list" class="u-corwn"><span class="corwn-wrap corwn-wrap00" href="javascript:;">                             <img
+									<p id="love_list" class="u-corwn">
+										<span v-for="rank in detail.rank_user"   class="corwn-wrap" v-bind:class="rank.class" href="javascript:;">   <img
 											class="lazy-load corwn"
-											src="https://thumb.qschou.com/files/qschou.com/avatar/173/a0946be7-0369-11e8-89cd-00163e0e274d/766c6796-d170-11e9-8333-00163e126c6f.jpeg@!thumb.png">                         </span>
-										<span class="corwn-wrap corwn-wrap01" href="javascript:;">                             <img
-												class="lazy-load corwn"
-												src="https://thumb.qschou.com/files/qschou.com/avatar/571/d8cc075c-861e-11e7-98f0-00163e0e274d/917f445a-dcc4-11e9-9cab-00163e09a42f.jpeg@!thumb.png">                         </span>
-										<span class="corwn-wrap corwn-wrap02" href="javascript:;">                             <img
-												class="lazy-load corwn"
-												src="https://thumb.qschou.com/files/qschou.com/avatar/391/5f915637-994b-11e9-95c3-00163e09c7a8/c1239217-d1e4-11e9-871b-00163e012abb.jpeg@!thumb.png">                         </span>
-										<span class="corwn-wrap corwn-wrap03" href="javascript:;">                             <img
-												class="lazy-load corwn"
-												src="https://thumb.qschou.com/files/qschou.com/avatar/10/0501bf22-20ef-4f65-a5dd-554929756896/9cd9d4bb-dd0c-11e9-9a7d-00163e0e2150.jpeg@!thumb.png">                         </span>
+											v-bind:src="rank.portrait"> </span>
 									</p>
 									<p id="love_list_arrow" class="rank-head J-ranking-list"><i class="fjiantou"></i></p></div>
 							</a></section>
@@ -341,7 +331,8 @@
 
 
 			toDonate () {
-				if( Cookies.get('tokenAuth') === undefined) {
+			  const token = Cookies.get('tokenAuth')
+				if( token === undefined ||  token.length !== 32) {
 					window.location.href = this.wx_url;
 				} else {
 					window.location.href = '/pay.html?id=' + this.getRequest('id');

@@ -20,28 +20,34 @@ class Wechat extends Base
 
     public function pay(){
         $totalFee = $this->queryParam('total_fee', 0);
-        $projectId = $this->queryParam('project_id');
-        $orderId = OrderService::addOrder([
-            'project_id' => $projectId,
-            'amount' => $totalFee,
-            'encourage' => '加油加油!!!',
-        ]);
-        $token = $this->request()->getCookieParams("authToken");
+        $projectId = $this->queryParam('id');
+        $token = $this->request()->getCookieParams("tokenAuth");
+
         if(empty($token)) {
             return $this->outData(100, 'token状态异常');
         }
         $userInfo = UserService::getUserByToken($token);
+        if(empty($userInfo)) {
+            return $this->outData(101, '获取用户状态异常');
+        }
+
+        $orderId = OrderService::addOrder([
+            'user_id' => $userInfo['id'],
+            'project_id' => $projectId,
+            'amount' => $totalFee,
+            'encourage' => '加油加油!!!',
+        ]);
 
         $officialAccount = new OfficialAccount();
         $officialAccount->setOpenid($userInfo['openid']);
-        $officialAccount->setOutTradeNo($orderId + 10000000);
+        $officialAccount->setOutTradeNo($orderId);
         $officialAccount->setBody('开始支付:' . $orderId);
-        $officialAccount->setTotalFee(intval($totalFee * 100));
-
+        $officialAccount->setTotalFee(intval($totalFee ));
         $officialAccount->setSpbillCreateIp($this->request()->getHeader('x-real-ip')[0]);
         $pay = new Pay();
         $params = $pay->weChat($this->wechatConfig())->officialAccount($officialAccount);
-        return $this->outData(0, '', $params);
+        BaseService::logInfo("PAY_PARAM:" . json_encode($params));
+        return $this->outData(0, '', $params->toArray());
     }
 
 
@@ -83,11 +89,10 @@ class Wechat extends Base
 
         $updateData = [
             'username' => $wxUserArr['nickname'],
-            'portrait' => $wxUserArr['headimgurl']
+            'portrait' => $wxUserArr['headimgurl'],
+            'openid' => $openid,
         ];
         $userInfo = UserService::getUserByField('openid', $openid);
-
-
 
         if(empty($userInfo)) {
             $userId = UserService::addRealUser($updateData);
@@ -98,11 +103,9 @@ class Wechat extends Base
 
         BaseService::logInfo("WX_USER_INFO:" . json_encode(['openid' => $openid, 'wx_user' => $wxUser, 'user_id' => $userId]));
 
-
         $token = $this->generateToken();
         UserService::saveToken($userId, $token);
-        setcookie("authToken", $token, 0, '/');
-        $this->response()->redirect("/pay.html?id={$projectId}");
+        $this->response()->redirect("/pay.html?id={$projectId}&token={$token}");
     }
 
 
@@ -112,9 +115,10 @@ class Wechat extends Base
         $wechatConfig->setAppId(SysConfService::wxAppId());
         $wechatConfig->setMchId(SysConfService::wxMchId());
         $wechatConfig->setKey(SysConfService::wxApiKey());
-        $wechatConfig->setNotifyUrl(SysConfService::baseUri() . '/wechat/payCallback');
+        $wechatConfig->setNotifyUrl(SysConfService::baseUri() . '/api/wechat/payCallback');
         $wechatConfig->setApiClientCert($baseDir . "/Cert/apiclient_cert.pem");//客户端证书
         $wechatConfig->setApiClientKey($baseDir . "/Cert/apiclient_key.pem"); //客户端证书秘钥
+        return $wechatConfig;
     }
 
     public function payCallback(){
@@ -132,7 +136,7 @@ class Wechat extends Base
         $timestamp = $this->queryParam("timestamp");
         $nonce = $this->queryParam("nonce");
 
-        $token = 'mclog';
+        $token = SysConfService::wxToken();
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
