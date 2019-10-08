@@ -17,11 +17,14 @@ class OrderService extends BaseService
     }
 
     public static function getByProject($id) {
-        return self::db()->where('project_id', $id)->get(self::TABLE_NAME, null, 'user_id,amount');
+        return self::db()->where('project_id', $id)
+            ->where('is_pay', 1)
+            ->get(self::TABLE_NAME, null, 'user_id,amount');
     }
 
     public static function getByLastId($projectId, $lastId, $pageSize) {
-        $model = self::db()->where('project_id', $projectId);
+        $model = self::db()->where('project_id', $projectId)
+            ->where('is_pay', 1);
         if($lastId > 0) {
             $model = $model->where('id', $lastId, '<');
         }

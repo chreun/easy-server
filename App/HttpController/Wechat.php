@@ -18,6 +18,8 @@ class Wechat extends Base
     protected $needAuth = false;
 
 
+    const BASE_OUT_NO = 10000000;
+
     public function pay(){
         $totalFee = $this->queryParam('total_fee', 0);
         $projectId = $this->queryParam('id');
@@ -40,7 +42,7 @@ class Wechat extends Base
 
         $officialAccount = new OfficialAccount();
         $officialAccount->setOpenid($userInfo['openid']);
-        $officialAccount->setOutTradeNo($orderId + 10000000);
+        $officialAccount->setOutTradeNo($orderId + self::BASE_OUT_NO);
         $officialAccount->setBody('开始支付:' . $orderId);
         $officialAccount->setTotalFee(intval($totalFee ));
         $officialAccount->setSpbillCreateIp($this->request()->getHeader('x-real-ip')[0]);
@@ -126,8 +128,11 @@ class Wechat extends Base
         $pay = new Pay();
         $wechatConf = $this->wechatConfig();
         $data = $pay->weChat($wechatConf)->verify($content);
-
-        BaseService::logInfo( 'PAY_NOTIFY:' . var_export($data->__toString(), 1));
+        if($arr = json_decode($data->__toString(), true)) {
+            OrderService::save($arr['out_trade_no'] - self::BASE_OUT_NO, [
+                'is_pay' => 1
+            ]);
+        }
         $this->response()->write($pay->weChat($wechatConf)->success());
     }
 
