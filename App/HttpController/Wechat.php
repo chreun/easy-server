@@ -78,7 +78,7 @@ class Wechat extends Base
             'username' => $wxUserArr['nickname'],
             'portrait' => $wxUserArr['headimgurl']
         ];
-        $userInfo = UserService::getUserByField('open_id', $openid);
+        $userInfo = UserService::getUserByField('openid', $openid);
         if(empty($userInfo)) {
             $userId = UserService::addRealUser($updateData);
         } else {
