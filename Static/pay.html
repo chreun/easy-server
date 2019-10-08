@@ -153,7 +153,7 @@
 			checkItem () {
 				this.state = !this.state
 			},
-			jsApiCall() {
+      async jsApiCall() {
 				const param = this.getPayParam()
 				console.log(222)
         console.log(param)
@@ -173,7 +173,7 @@
 						}
 				);
 			},
-		 callPay() {
+      async callPay() {
 			 if (typeof WeixinJSBridge == "undefined") {
 				 if (document.addEventListener) {
 					 document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
