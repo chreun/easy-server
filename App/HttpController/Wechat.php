@@ -45,6 +45,10 @@ class Wechat extends Base
         $officialAccount->setSpbillCreateIp($this->request()->getHeader('x-real-ip')[0]);
         $pay = new Pay();
         $params = $pay->weChat($this->wechatConfig())->officialAccount($officialAccount);
+
+        BaseService::logInfo("PAY_PARAM:" . json_encode([$params]));
+
+
         return $this->outData(0, '', $params);
     }
 
