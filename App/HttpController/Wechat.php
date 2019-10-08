@@ -126,7 +126,8 @@ class Wechat extends Base
         $pay = new Pay();
         $wechatConf = $this->wechatConfig();
         $data = $pay->weChat($wechatConf)->verify($content);
-        BaseService::logInfo( 'PAY_NOTIFY:' . var_export($data, 1));
+
+        BaseService::logInfo( 'PAY_NOTIFY:' . var_export($data->__toString(), 1));
         $this->response()->write($pay->weChat($wechatConf)->success());
     }
 
