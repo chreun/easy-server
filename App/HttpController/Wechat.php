@@ -82,11 +82,10 @@ class Wechat extends Base
 
         $updateData = [
             'username' => $wxUserArr['nickname'],
-            'portrait' => $wxUserArr['headimgurl']
+            'portrait' => $wxUserArr['headimgurl'],
+            'openid' => $openid,
         ];
         $userInfo = UserService::getUserByField('openid', $openid);
-
-
 
         if(empty($userInfo)) {
             $userId = UserService::addRealUser($updateData);
@@ -97,11 +96,9 @@ class Wechat extends Base
 
         BaseService::logInfo("WX_USER_INFO:" . json_encode(['openid' => $openid, 'wx_user' => $wxUser, 'user_id' => $userId]));
 
-
         $token = $this->generateToken();
         UserService::saveToken($userId, $token);
-        setcookie("authToken", $token, 0, '/');
-        $this->response()->redirect("/pay.html?id={$projectId}");
+        $this->response()->redirect("/pay.html?id={$projectId}&token={$token}");
     }
 
 
