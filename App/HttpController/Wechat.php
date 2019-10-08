@@ -124,7 +124,7 @@ class Wechat extends Base
         if( $tmpStr == $signature ){
             $this->response()->write($this->queryParam("nonce"));
         }else{
-            $this->response()->write('');
+            $this->response()->write('校验失败');
         }
     }
 
