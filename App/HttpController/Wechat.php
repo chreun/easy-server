@@ -40,7 +40,7 @@ class Wechat extends Base
 
     public function getWxUrl(){
         $arr['appid'] = SysConfService::wxAppId();
-        $arr['redirect_uri'] = SysConfService::baseUri() . '/api/wechat/codeCallback?id=' . $this->queryParam('project_id');
+        $arr['redirect_uri'] = SysConfService::baseUri() . '/api/wechat/codeCallback?id=' . $this->queryParam('id');
         $arr['response_type'] = 'code';
         $arr['scope'] = 'snsapi_userinfo';
         //$scope='snsapi_base';

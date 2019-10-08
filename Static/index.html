@@ -333,7 +333,6 @@
 				}
 			},
 			async wxCodeUrl () {
-
 				let ret = await axios.get('api/wechat/getWxUrl?id=' + this.project_id);
 				this.wx_url = ret.data.data;
 				console.log(ret.data)
