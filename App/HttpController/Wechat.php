@@ -22,10 +22,20 @@ class Wechat extends Base
         $totalFee = $this->queryParam('total_fee', 0);
         $projectId = $this->queryParam('id');
         $token = $this->request()->getCookieParams("authToken");
+
+
+
+        BaseService::logInfo("BEGIN_PAY:" . json_encode(['token' => $token,
+                'order_id' => 0, 'total' => $totalFee, 'id' => $projectId]));
+
         if(empty($token)) {
             return $this->outData(100, 'token状态异常');
         }
         $userInfo = UserService::getUserByToken($token);
+
+
+
+
         if(empty($userInfo)) {
             return $this->outData(101, '获取用户状态异常');
         }
@@ -37,7 +47,7 @@ class Wechat extends Base
             'encourage' => '加油加油!!!',
         ]);
 
-        BaseService::logInfo("BEGIN_PAY:" . json_encode(['order_id' => $orderId, 'total' => $totalFee]));
+
 
         $officialAccount = new OfficialAccount();
         $officialAccount->setOpenid($userInfo['openid']);
