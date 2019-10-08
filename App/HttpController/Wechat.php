@@ -38,9 +38,9 @@ class Wechat extends Base
     }
 
 
-    public function getCode(){
+    public function getWxUrl(){
         $arr['appid'] = SysConfService::wxAppId();
-        $arr['redirect_uri'] = SysConfService::baseUri() . '/api/wechat/codeCallback';
+        $arr['redirect_uri'] = SysConfService::baseUri() . '/api/wechat/codeCallback?id=' . $this->queryParam('project_id');
         $arr['response_type'] = 'code';
         $arr['scope'] = 'snsapi_userinfo';
         //$scope='snsapi_base';
@@ -52,6 +52,7 @@ class Wechat extends Base
 
     public function codeCallback(){
         $code = $this->queryParam('code');
+        $projectId = $this->queryParam('id');
         $arr['appid'] = SysConfService::wxAppId();
         $arr['secret'] = SysConfService::wxSecret();
         $arr['code'] = $code;
@@ -87,7 +88,7 @@ class Wechat extends Base
 
         $token = $this->generateToken();
         UserService::saveToken($userId, $token);
-        $this->response()->redirect("/newURL/index.html");
+        $this->response()->redirect("/pay.html?id={$projectId}");
     }
 
 

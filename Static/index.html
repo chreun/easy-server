@@ -315,8 +315,8 @@
 		},
 		methods : {
 			async getBaseData () {
-				const projectId = this.getRequest('id')
-				let res = await axios.get('api/project?id=' + projectId);
+				this.project_id = this.getRequest('id')
+				let res = await axios.get('api/project?id=' + this.project_id);
 				this.$nextTick(function () {
 					this.detail = res.data.data
 				})
@@ -324,8 +324,7 @@
 				this.wxCodeUrl()
 			},
 			async moreOrder () {
-				const projectId = this.getRequest('id')
-				let orderRes = await axios.get('api/project/order?id=' + projectId + '&lastId=' + this.order.lastId);
+				let orderRes = await axios.get('api/project/order?id=' + this.project_id + '&lastId=' + this.order.lastId);
 				if(orderRes.data.code === 0) {
 					let retData = orderRes.data.data
 					this.order.list = this.order.list.concat(retData.list)
@@ -334,7 +333,8 @@
 				}
 			},
 			async wxCodeUrl () {
-				let ret = await axios.get('api/wechat/getCode');
+
+				let ret = await axios.get('api/wechat/getWxUrl?id=' + this.project_id);
 				this.wx_url = ret.data.data;
 				console.log(ret.data)
 				console.log(this.wx_url)
