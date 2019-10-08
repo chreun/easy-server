@@ -131,9 +131,7 @@
 
 			getPayParam() {
 			  let param = {}
-        $.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value, function (res) {
-          param = res.data
-        });
+
         return param
       },
 			getRequest(key) {
@@ -155,24 +153,23 @@
 				this.state = !this.state
 			},
 			jsApiCall() {
-				const param = this.getPayParam()
-				console.log(222)
-        console.log(param)
-				WeixinJSBridge.invoke(
-						'getBrandWCPayRequest',
-						{
-						  'appId': param.appId,
-							'nonceStr':param.nonceStr,
-							'package':param.package,
-							'signType':param.signType,
-							'timeStamp':param.timeStamp,
-							'paySign':param.paySign
-						},
-						function (res) {
-							WeixinJSBridge.log(res.err_msg);
-							alert('支付异常');
-						}
-				);
+        $.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value, function (res) {
+          const param = res.data;
+          WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            {
+              'appId': param.appId,
+              'nonceStr':param.nonceStr,
+              'package':param.package,
+              'signType':param.signType,
+              'timeStamp':param.timeStamp,
+              'paySign':param.paySign
+            },
+            function (res) {
+              WeixinJSBridge.log(res.err_msg);
+            }
+          );
+        });
 			},
 			callPay() {
 			 if (typeof WeixinJSBridge == "undefined") {
