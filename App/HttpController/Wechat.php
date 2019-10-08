@@ -131,7 +131,7 @@ class Wechat extends Base
         $timestamp = $this->queryParam("timestamp");
         $nonce = $this->queryParam("nonce");
 
-        $token = 'mclog';
+        $token = SysConfService::wxToken();
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
