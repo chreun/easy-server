@@ -111,4 +111,22 @@ class Wechat extends Base
         $this->response()->write($pay->weChat($wechatConf)->success());
     }
 
+    public function checkSignature()
+    {
+        $signature = $this->queryParam("signature");
+        $timestamp = $this->queryParam("timestamp");
+        $nonce = $this->queryParam("nonce");
+
+        $token = 'mclog';
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+        if( $tmpStr == $signature ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
