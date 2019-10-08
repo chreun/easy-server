@@ -122,7 +122,7 @@ class Wechat extends Base
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );
         if( $tmpStr == $signature ){
-            $this->response()->write($this->queryParam("nonce"));
+            $this->response()->write($this->queryParam("echostr"));
         }else{
             $this->response()->write('校验失败');
         }
