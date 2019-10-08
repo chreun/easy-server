@@ -21,7 +21,7 @@ class Wechat extends Base
     public function pay(){
         $totalFee = $this->queryParam('total_fee', 0);
         $projectId = $this->queryParam('id');
-        $token = $this->request()->getCookieParams("authToken");
+        $token = $this->request()->getCookieParams("tokenAuth");
 
 
 
