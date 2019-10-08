@@ -47,7 +47,7 @@ class Wechat extends Base
         $pay = new Pay();
         $params = $pay->weChat($this->wechatConfig())->officialAccount($officialAccount);
         BaseService::logInfo("PAY_PARAM:" . json_encode($params->toArray()));
-        return $this->outData(0, '', $params);
+        return $this->outData(0, '', $params->toArray());
     }
 
 
