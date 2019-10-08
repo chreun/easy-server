@@ -26,6 +26,11 @@ class Wechat extends Base
             'amount' => $totalFee,
             'encourage' => '加油加油!!!',
         ]);
+
+
+        BaseService::logInfo("BEGIN_PAY:" . json_encode(['order_id' => $orderId, 'total' => $totalFee]));
+
+
         $token = $this->request()->getCookieParams("authToken");
         if(empty($token)) {
             return $this->outData(100, 'token状态异常');
