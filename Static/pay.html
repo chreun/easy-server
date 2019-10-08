@@ -104,8 +104,8 @@
 </div>
 
 <script src="https://cdn.bootcss.com/vue/2.6.9/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
 <script src="https://cdn.bootcss.com/js-cookie/2.2.1/js.cookie.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script>
 	const app = new Vue({
@@ -117,23 +117,24 @@
 			state: false
 		},
 		methods : {
-			async getPayData () {
+			 getPayData () {
 				this.project_id = this.getRequest('id')
 				const token = this.getRequest('token')
         if(token !== undefined && token.length === 32) {
           Cookies.set('tokenAuth', token, { expires: 30, path: '/'});
 				}
-				let res = await axios.get('api/project/info?id=' + this.project_id);
-				this.$nextTick(function () {
-					this.detail = res.data.data
-				})
+				let _this = this
+        $.get('api/project/info?id=' + this.project_id, function (res) {
+          _this.detail = res.data
+        });
 			},
 
-      async getPayParam() {
-        const res = await axios.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value);
-        console.log(111)
-        console.log(res)
-        return res.data.data
+			getPayParam() {
+			  let param = {}
+        $.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value, function (res) {
+          param = res.data
+        });
+        return param
       },
 			getRequest(key) {
 				const url = location.href;
@@ -153,7 +154,7 @@
 			checkItem () {
 				this.state = !this.state
 			},
-      async jsApiCall() {
+			jsApiCall() {
 				const param = this.getPayParam()
 				console.log(222)
         console.log(param)
@@ -173,7 +174,7 @@
 						}
 				);
 			},
-      async callPay() {
+			callPay() {
 			 if (typeof WeixinJSBridge == "undefined") {
 				 if (document.addEventListener) {
 					 document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
