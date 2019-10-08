@@ -341,7 +341,8 @@
 
 
 			toDonate () {
-				if( Cookies.get('tokenAuth') === undefined) {
+			  const token = Cookies.get('tokenAuth')
+				if( token === undefined ||  token.length !== 32) {
 					window.location.href = this.wx_url;
 				} else {
 					window.location.href = '/pay.html?id=' + this.getRequest('id');
