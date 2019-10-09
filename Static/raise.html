@@ -15,6 +15,11 @@
 	<link rel="stylesheet" href="/css/common.css">
 	<link rel="stylesheet" href="/css/index.css">
 
+
+	<script src="https://cdn.bootcss.com/vConsole/3.2.2/vconsole.min.js"></script>
+	<script>var vConsole = new VConsole();</script>
+
+
 </head>
 
 <body>
@@ -334,6 +339,10 @@
             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: _this.detail.portrait, // 分享图标
           })
+        });
+
+        wx.error(function(res){
+						console.log(res)
         });
 			},
 			isWxClient(){

@@ -50,6 +50,7 @@ class JsService extends BaseService
             $randStr = md5((string)rand(10000, 99999));
             $time = time();
             $tempSort = [
+                'debug'=> true,
                 'noncestr'=> $randStr,
                 'jsapi_ticket'=> $ticket,
                 'timestamp'=> $time,
