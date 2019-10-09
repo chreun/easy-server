@@ -15,11 +15,6 @@
 	<link rel="stylesheet" href="/css/common.css">
 	<link rel="stylesheet" href="/css/index.css">
 
-
-	<script src="https://cdn.bootcss.com/vConsole/3.2.2/vconsole.min.js"></script>
-	<script>var vConsole = new VConsole();</script>
-
-
 </head>
 
 <body>
@@ -332,9 +327,9 @@
         wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
           wx.updateAppMessageShareData({
             title: _this.detail.title, // 分享标题
-            desc: '', // 分享描述
+            desc: _this.detail.introduction.substr(0, 100), // 分享描述
             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: location.origin +  _this.detail.portrait, // 分享图标
+            imgUrl: location.origin +  _this.detail.image_list[0], // 分享图标
             success: function(res) {
               console.log(res)
             }
@@ -342,7 +337,7 @@
           wx.updateTimelineShareData({
             title: _this.detail.title, // 分享标题
             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: location.origin +  _this.detail.portrait, // 分享图标
+            imgUrl: location.origin +  _this.detail.image_list[0], // 分享图标
             success: function(res) {
 								console.log(res)
             }
