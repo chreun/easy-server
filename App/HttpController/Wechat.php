@@ -157,7 +157,9 @@ class Wechat extends Base
 
     public function shareParam(){
         $url = $this->queryParam('url');
-        $this->outData(0, '', (new JsService())->getJsConfig($url));
+        $ret = (new JsService())->getJsConfig($url);
+        BaseService::logInfo('shareParam:' . $url . '  ' . json_encode($ret));
+        $this->outData(0, '', $ret);
     }
 
 
