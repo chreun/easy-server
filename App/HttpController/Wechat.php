@@ -5,6 +5,7 @@ namespace App\HttpController;
 
 
 use App\Service\BaseService;
+use App\Service\JsService;
 use App\Service\OrderService;
 use App\Service\SysConfService;
 use App\Service\UserService;
@@ -153,5 +154,11 @@ class Wechat extends Base
             $this->response()->write('校验失败');
         }
     }
+
+    public function shareParam(){
+        $url = $this->queryParam('url');
+        $this->outData(0, '', (new JsService())->getJsConfig($url));
+    }
+
 
 }
