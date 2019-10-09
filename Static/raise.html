@@ -314,25 +314,25 @@
          });
 				 this.moreOrder()
 				 this.wxCodeUrl()
-				 if(this.isWxClient()) {
-           this.wxInit()
-				 }
+
+				 this.wxInit()
 			},
 			wxInit () {
         $.get('api/wechat/shareParam?url=' + location.href, function (res) {
           wx.config (res.data);
         });
+        const _this = this
         wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
           wx.updateAppMessageShareData({
-            title: this.detail.title, // 分享标题
+            title: _this.detail.title, // 分享标题
             desc: '', // 分享描述
             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: this.detail.portrait, // 分享图标
+            imgUrl: _this.detail.portrait, // 分享图标
           })
           wx.updateTimelineShareData({
-            title: this.detail.title, // 分享标题
-            link: this.detail.title, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: this.detail.portrait, // 分享图标
+            title: _this.detail.title, // 分享标题
+            link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: _this.detail.portrait, // 分享图标
           })
         });
 			},
