@@ -15,11 +15,8 @@ class Index1 extends Base
 
     public function test(){
 
-        $url = 'http://mclog.cn/raise.html?id=2';
 
-        $res = (new JsService())->getJsConfig($url);
-
-        return $this->outData(0, '', $res);
+        return $this->outData(0, '', 1);
 
 
     }
