@@ -366,7 +366,7 @@
 			  const _this = this
         $.get('api/project/order?id=' + this.project_id + '&lastId=' + this.order.lastId, function (res) {
           if(res.code === 0) {
-            _this.order.list = this.order.list.concat(res.data.list)
+            _this.order.list = _this.order.list.concat(res.data.list)
             _this.order.lastId = res.data.lastId
             _this.order.hasNext = res.data.hasNext
           }
