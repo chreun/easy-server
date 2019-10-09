@@ -26,36 +26,28 @@ class JsService extends BaseService
             if(!$url){
                 return '缺少url参数';
             }
-            $key = 'str:wx:access_token';
-            $accToken = self::redis()->get($key);
-            if(empty($accToken)) {
+            $key = 'str:wx:js_ticket';
+            $ticket = self::redis()->get($key);
+            if(empty($ticket)) {
                 $acc_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='
-                    .$this->wxAppId .'&secret='. $this->wxAppSecret;
+                    . $this->wxAppId .'&secret='. $this->wxAppSecret;
                 //TODO  实际开发中获取access_token要进行缓存，执行curlRequest前判断是否存在缓存，不存在才进行调用，建议缓存7200秒
                 $accToken = json_decode(self::curlGet($acc_url),true) ;
                 if(!isset($accToken['access_token'])){
                     return $accToken['errmsg'];
                 }
                 $accToken = $accToken['access_token'];
-                self::redis()->set($key, $accToken, 7200);
-            }
-            $ticket_url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$accToken.'&type=jsapi';
-            $ticket = json_decode(self::curlGet($ticket_url),true);
-            if(!isset($ticket['ticket'])){
-                return '微信服务器异常,获取ticket异常';
-            }
-            $ticket = $ticket['ticket'];
-            //生成随机字符串
-            $randStr = '';
-            $str = $ticket.$accToken;
-            $strLength = strlen($str);
-            for ($i=0; $i<15; $i++){
-                if($i%3 == 0){
-                    $randStr.=rand();
+                $ticket_url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$accToken.'&type=jsapi';
+                $ticket_res = json_decode(self::curlGet($ticket_url),true);
+                if(!isset($ticket_res['ticket'])){
+                    return '微信服务器异常,获取ticket异常';
                 }
-                $randStr.=$str[rand(0,$strLength)];
+                $ticket = $ticket_res['ticket'];
+                self::redis()->set($key, $ticket, 7100);
             }
-            $randStr.=rand();
+
+            //生成随机字符串
+            $randStr = md5((string)rand(10000, 99999));
             $time = time();
             $tempSort = [
                 'noncestr'=> $randStr,
@@ -90,9 +82,7 @@ class JsService extends BaseService
             ];
             return $jsConfig;
         }catch (\Exception $e){
-
             return '微信服务器异常:' . $e->getMessage();
-
         }
 
     }
