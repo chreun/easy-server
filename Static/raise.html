@@ -319,7 +319,7 @@
 				 }
 			},
 			wxInit () {
-        $.get('wechat/shareParam?url=' + location.href, function (res) {
+        $.get('api/wechat/shareParam?url=' + location.href, function (res) {
           wx.config (res.data);
         });
         wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
