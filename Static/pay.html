@@ -60,10 +60,10 @@
 						<div class="progress_box">
 							<div class="progress_bg"></div>
 							<div class="product_progress">
-								<div class="progress_green" style="width: 0%;"></div>
-								<span class="progress_num" style="left: 0%;">0%</span></div>
+								<div class="progress_green" v-bind:style="{width: exceed_pct + '%'}"></div>
+								<span class="progress_num" v-bind:style="{left: exceed_pct + '%'}">{{exceed_pct}}%</span></div>
 						</div>
-						<label class="progress_box_des">您的捐献额超越 <span class="progress_des_green">0%</span> 的用户</label></div>
+						<label class="progress_box_des">您的捐献额超越 <span class="progress_des_green">{{exceed_pct}}%</span> 的用户</label></div>
 				</div>              <!-- 爱心劵start -->
 				<section id="voucherBox"></section>             <!-- 爱心劵end -->
 				<!-- <div class="recommand-title">大病互助权益</div> -->
@@ -185,7 +185,28 @@
 		computed: {
 			total_value: function () {
 				return  (parseInt(this.money) > 0 ? parseInt(this.money):0)  + (this.state ? 3 : 0)
-			}
+			},
+      exceed_pct: function () {
+        const m = parseInt(this.money)
+				if(isNaN(m)) return 0;
+        if(m < 10) {
+          return m;
+        }else if(m <= 20) {
+				  return 20 + (m - 10) * 4 ;
+				}else if(m <= 50) {
+          return 60 + parseInt((m - 20) * 0.667)
+				}else if(m <= 100) {
+          return 80 + parseInt((m - 50) * 0.2)
+        }else if(m <= 500) {
+          return 90 + parseInt((m - 100) * 0.01)
+        }else if(m <= 1000) {
+          return 94 + parseInt((m - 100) * 0.005)
+        }else if(m <= 3000) {
+          return 98 + parseInt((m - 100) * 0.001)
+        } else {
+					return 100
+				}
+      },
 		}
 	}).$mount('#app');
 </script>
