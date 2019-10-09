@@ -320,8 +320,9 @@
          });
 				 this.moreOrder()
 				 this.wxCodeUrl()
-
-				 this.wxInit()
+				 if(this.isWxClient()) {
+					 this.wxInit()
+				 }
 			},
 			wxInit () {
         $.get('api/wechat/shareParam?url=' + location.href, function (res) {
@@ -334,23 +335,32 @@
             desc: '', // 分享描述
             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: _this.detail.portrait, // 分享图标
+            success: function(res) {
+              console.log(res)
+            }
           })
           wx.updateTimelineShareData({
             title: _this.detail.title, // 分享标题
             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: _this.detail.portrait, // 分享图标
+            success: function(res) {
+								console.log(res)
+            }
           })
         });
-
         wx.error(function(res){
 						console.log(res)
         });
 			},
 			isWxClient(){
-
-				return true;
-
+        const ua = window.navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == "micromessenger") {
+          return true;
+        } else {
+          return false;
+        }
   		},
+
 
 			moreOrder () {
 			  const _this = this
