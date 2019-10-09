@@ -334,7 +334,7 @@
             title: _this.detail.title, // 分享标题
             desc: '', // 分享描述
             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: _this.detail.portrait, // 分享图标
+            imgUrl: location.host +  _this.detail.portrait, // 分享图标
             success: function(res) {
               console.log(res)
             }
@@ -342,7 +342,7 @@
           wx.updateTimelineShareData({
             title: _this.detail.title, // 分享标题
             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: _this.detail.portrait, // 分享图标
+            imgUrl: location.host +  _this.detail.portrait, // 分享图标
             success: function(res) {
 								console.log(res)
             }
@@ -360,8 +360,6 @@
           return false;
         }
   		},
-
-
 			moreOrder () {
 			  const _this = this
         $.get('api/project/order?id=' + this.project_id + '&lastId=' + this.order.lastId, function (res) {
