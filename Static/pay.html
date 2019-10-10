@@ -121,7 +121,7 @@
 				}
 				let _this = this
         $.get('api/project/info?id=' + this.project_id, function (res) {
-          _this.detail = res.data
+          _this.detail = res.data.item
         });
 			},
 
