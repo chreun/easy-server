@@ -13,6 +13,7 @@ class OrderService extends BaseService
 
     public static function addOrder($data){
         $data['create_at'] = self::localtime();
+        $data['encourage'] = self::encourage();
         return self::create($data);
     }
 
@@ -39,5 +40,20 @@ class OrderService extends BaseService
         return $data;
     }
 
+
+    private static function encourage(){
+        $map = [
+            '相信明天会更好！',
+            '不放弃就一定有奇迹！',
+            '加油！坚持就是胜利！',
+            '爱的力量一定能帮你战胜病魔！',
+            '一切都会好起来的，加油！',
+            '加油，我们都支持你！',
+            '风雨过后一定能见到彩虹！',
+            '祝你早日康复！',
+            '你要坚信一切都会过去的！',
+        ];
+        return $map[rand(0, count($map) - 1)];
+    }
 
 }

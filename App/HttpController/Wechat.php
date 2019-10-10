@@ -38,7 +38,6 @@ class Wechat extends Base
             'user_id' => $userInfo['id'],
             'project_id' => $projectId,
             'amount' => $totalFee,
-            'encourage' => '加油加油!!!',
         ]);
 
         $officialAccount = new OfficialAccount();
