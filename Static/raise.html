@@ -15,7 +15,9 @@
 	<link rel="stylesheet" href="/css/common.css">
 	<link rel="stylesheet" href="/css/raise.main.css">
 
-
+	<style>
+		[v-cloak]{display: none!important;}
+	</style>
 </head>
 
 <body>
@@ -37,21 +39,21 @@
 							<div class="u-name">
 								<div class="photo-name-box"><img class="lazy-load"
 																								 v-bind:src="detail.portrait">
-									<span>{{ detail.username }}</span></div>
+									<span v-cloak>{{ detail.username }}</span></div>
 								<div class="tags">
 									<div class="u-subMark"> 个人求助</div>
 								</div>
 							</div>
 						</div>
 					</header>
-					<header class="g-box1"><h1 class="fmargT"> {{ detail.title }} </h1>
+					<header class="g-box1"><h1 class="fmargT" v-cloak> {{ detail.title }} </h1>
 						<div id="textaudio1" style="margin-top: 10px;display: none;"></div>
 					</header>
 					<section class="g-box2 box2 fmargT J-hot_process">
 						<ul class="moneylist">
-							<li><span>急需筹款(元)</span> <strong>{{ detail.need_amount }}</strong></li>
-							<li><span>已筹金额(元)</span> <strong>{{ detail.attain_amount }}</strong></li>
-							<li><span>帮助次数(次)</span> <strong>{{ detail.collect_count }}</strong></li>
+							<li><span>急需筹款(元)</span> <strong v-cloak>{{ detail.need_amount }}</strong></li>
+							<li><span>已筹金额(元)</span> <strong v-cloak>{{ detail.attain_amount }}</strong></li>
+							<li><span>帮助次数(次)</span> <strong v-cloak>{{ detail.collect_count }}</strong></li>
 						</ul>
 					</section>
 				</div>
@@ -62,7 +64,7 @@
 					<article>
 						<header>求助说明</header>
 						<section class="m-txt">
-							<div class="u-txt J-project-intro"  v-bind:class="[more_intro ? '' : 'folded']">
+							<div class="u-txt J-project-intro" v-cloak  v-bind:class="[more_intro ? '' : 'folded']">
 								{{ detail.introduction }}
 							</div>
 							<div id="go_more" v-on:click="more_intro = true" class="u-more J-view-more-intro dtstrackclick" data-dta="Unfold"
@@ -100,7 +102,7 @@
 			<div id="PiccCooperateVueReplaceDiv">             <!-- 血之源也在这里 -->         </div>
 			<section class="section sectionT">
 				<article class="fmarB30 g-box6 box2">
-					<header class="ifont-hui">已有<span class="cgreen">{{detail.prove_count}}</span>人证明情况属实</header>
+					<header class="ifont-hui">已有<span class="cgreen" v-cloak>{{detail.prove_count}}</span>人证明情况属实</header>
 					<section>
 						<ul class="zslist ">
 							<li  v-for="prove in detail.prove_lists" class="active  J-prove-avatar"><a href="javascript:;">
@@ -112,10 +114,10 @@
 					<section  v-for="(prove, index) in detail.prove_lists" v-if="index == 0" class="m-say">
 						<div  class="prove_content t1 active" role="tabpanel" id="tab0">
 							<div class="prove_header">
-								<strong class="prove_preson">{{prove.real_name}}</strong>
-								<span class="prove_relationg">{{prove.relation}}</span>
+								<strong class="prove_preson" v-cloak>{{prove.real_name}}</strong>
+								<span class="prove_relationg" v-cloak>{{prove.relation}}</span>
 								<span class="prove_realname">已实名</span></div>
-							<p class=" J-prove-msg">{{prove.introduce}}</p>
+							<p class=" J-prove-msg" v-cloak>{{prove.introduce}}</p>
 						</div>
 					</section>
 				</article>
@@ -134,14 +136,14 @@
 							<!-- <i class="peifu-icon"></i> --><a href="javascript:;">先行赔付</a></div>
 					</header>                <!-- 主态的非-1情况 及客态的10情况 -->
 					<section class="m-ziliao b_ziliao"><!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">患者：{{detail.patient}}</h6>
+						<div class="item style10"><h6 class="u-tit" v-cloak>患者：{{detail.patient}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>身份证明已审核</span></span></p>
 						</div><!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">所患疾病：{{detail.sickness}}</h6>
+						<div class="item style10"><h6 class="u-tit" v-cloak>所患疾病：{{detail.sickness}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>诊断证明已审核</span></span> <span
-									class="u-smal-item"><span class="fright"></span><span>诊断医院：{{detail.prove_hospital}}</span></span></p></div>
+									class="u-smal-item"><span class="fright" v-cloak></span><span>诊断医院：{{detail.prove_hospital}}</span></span></p></div>
 						<!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">收款人：{{detail.payee}}</h6>
+						<div class="item style10"><h6 class="u-tit" v-cloak>收款人：{{detail.payee}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>身份证明已审核</span></span> <span
 									class="u-smal-item"><span class="fright"></span><span>关系证明已审核</span></span></p></div>
 					</section>                             <!-- 增信补充说明及发起人承诺书 -->                 <!-- 增信补充说明及发起人承诺书 -->
@@ -149,12 +151,12 @@
 						<div class="u-memo">
 							<div class="icon-m ibg1"></div>
 							<div class="txt"><p class="t1">家庭经济收入状况</p>
-								<p class="ifont-green"> 年收入:{{detail.annual_income}}万 / 金融资产:{{detail.financial_assets}}万 </p></div>
+								<p class="ifont-green" v-cloak> 年收入:{{detail.annual_income}}万 / 金融资产:{{detail.financial_assets}}万 </p></div>
 						</div>
 						<div class="u-memo">
 							<div class="icon-m ibg2"></div>
 							<div class="txt"><p class="t1">家庭房屋财产状况</p>
-								<p class="ifont-green"> 数量:{{detail.house_count}} / 价值:{{detail.house_value}}万 / 状态:{{detail.house_status}} </p></div>
+								<p class="ifont-green" v-cloak> 数量:{{detail.house_count}} / 价值:{{detail.house_value}}万 / 状态:{{detail.house_status}} </p></div>
 						</div>
 						<div class="u-memo">
 							<div class="icon-m ibg3"></div>
