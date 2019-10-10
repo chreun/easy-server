@@ -335,8 +335,8 @@
 				 const _this = this
          $.get('api/project?id=' + this.project_id, function (res) {
            _this.detail = res.data
+           $("title").text(res.data.title);
          });
-         $("title").html(11111);
 				 this.moreOrder()
 				 this.wxCodeUrl()
 				 if(this.isWxClient()) {
