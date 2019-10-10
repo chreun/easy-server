@@ -74,7 +74,7 @@ class JsService extends BaseService
                 'nonceStr'=>$randStr,
                 'signature'=>$signature,
                 //此处填写你需要调用的JS列表，比如这里是调用的微信获取地理位置
-                'jsApiList'=> ['updateAppMessageShareData', 'updateTimelineShareData'],
+                'jsApiList'=> ['updateAppMessageShareData', 'updateTimelineShareData', 'previewImage'],
                 'test'=>[
                     'ticket'=>$ticket,
                     'url'=>$url
