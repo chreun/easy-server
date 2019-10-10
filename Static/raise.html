@@ -336,7 +336,7 @@
          $.get('api/project?id=' + this.project_id, function (res) {
            _this.detail = res.data
          });
-         $("title").text(_this.detail.title);
+         $("title").html(this.detail.title);
 				 this.moreOrder()
 				 this.wxCodeUrl()
 				 if(this.isWxClient()) {
