@@ -278,9 +278,22 @@
 				href="//mp.weixin.qq.com/s?__biz=MzA3NTA1NDE2Ng==&amp;mid=201655378&amp;idx=1&amp;sn=806cd4636c2c29efd8c059ab7c8aa37a#rd"></a>
 		</div>
 	</div>
+	<div class="qsc-modal modal-share mod-share-new" id="mod-sick-share" tabindex="-1" aria-hidden="false"
+			 v-bind:style="{ display:show_share ? 'block' : 'none'}">
+		<a href="javascript:void(0);" v-on:click="show_share=false"  class="modal-share-btn-close"
+																	name="H5_Btn_Pop_WA_DetailedShare_Close"></a>
+		<div class="pop-share-wrap">
+			<div class="modal-share-wechat-desc" style="line-height: 60px;"> 点击右上角<span id="modal-share-wechat-icon"
+																																									class="modal-share-wechat-icon"></span>
+			</div>
+			<p style="font-size:18px;font-weight:700;color:#fff;line-height:60px;text-align: center;">帮他<span
+					style="color: #ffc900">转发</span>一下，能帮他更快筹到治病钱<br> 一次转发，一份功德</p></div>
+		<!-- <div class="pop-other-share-wrap">         <div class="other-share-title">其他分享</div>         <ul>             <li class="share-qrcode">                 <i></i>                 二维码             </li>             <li class="share-qq">                 <i></i>                 QQ             </li>             <li class="share-qq-zone">                 <i></i>                 QQ空间             </li>         </ul>     </div> -->
+	</div>
 	<footer class="projectRarseCustomer J-footer">
 		<div class="anotherTips J-anotherTips"> 紧急求助！治病救命不能等，伸出援手帮助患者</div>
-		<div class="footer-bottom"><a class="share-btn J-btn-share J-btn-share-maidian dtstrackclick" data-dta="V1_2shareto_b"
+		<div class="footer-bottom">
+			<a class="share-btn J-btn-share J-btn-share-maidian dtstrackclick" v-on:click="show_share=true" data-dta="V1_2shareto_b"
 																	href="javascript:;">1038</a>
 			<div class="btn-box"><a class="yellow-btn J-go-pay dtstrackclick" v-on:click="toDonate" >我要帮帮他</a></div>
 		</div>
@@ -302,6 +315,7 @@
 			detail: {},
 			more_intro: false,
 			more_dynamic: false,
+      show_share: false,
 			project_id: 0,
 			order: {
 				list: [],
@@ -415,10 +429,12 @@
         for (let i = 0; i < this.detail.image_list.length; i++) {
           urls.push(location.origin + this.detail.image_list[i])
 				}
-				wx.previewImage({
-					current: location.origin + curUrl, // 当前显示图片的http链接
-					urls: urls // 需要预览的图片http链接列表
-				});
+        if(this.isWxClient()) {
+          wx.previewImage({
+            current: location.origin + curUrl, // 当前显示图片的http链接
+            urls: urls // 需要预览的图片http链接列表
+          });
+				}
       }
 		},
 		created () {
