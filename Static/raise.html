@@ -85,8 +85,12 @@
 					<article>
 						<section class="m-list J-project-img-list">
 							<ul class="clearfix">
-								<li v-for="image in detail.image_list"><a href="javascript:void (0)" class="fancybox" rel="fancybox" data-group_id="jdt">
-									<img class="lazy-load"  v-bind:src="image" alt=""> </a></li>
+								<li v-for="image in detail.image_list">
+
+									<a href="javascript:void (0)" class="fancybox" rel="fancybox" data-group_id="jdt">
+									<img class="lazy-load"  v-bind:src="image" v-on:click="previewImgInfo(image)" alt=""> </a>
+
+								</li>
 							</ul>
 						</section>
 					</article>
@@ -405,7 +409,17 @@
 				if (scrollTop + windowHeight === scrollHeight && this.order.hasNext) {
 					this.moreOrder()
 				}
-			}
+			},
+      previewImgInfo (curUrl) {
+				let urls = [];
+        for (let i = 0; i < this.detail.image_list.length; i++) {
+          urls.push(location.origin + this.detail.image_list[i])
+				}
+				wx.previewImage({
+					current: location.origin + curUrl, // 当前显示图片的http链接
+					urls: urls // 需要预览的图片http链接列表
+				});
+      }
 		},
 		created () {
 			this.getBaseData()
