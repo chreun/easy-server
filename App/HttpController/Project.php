@@ -64,9 +64,18 @@ class Project extends Base
 
     function info(){
         $id = $this->queryParam('id');
-        $data = ProjectService::find($id);
-        $data['image_list'] = (array)BaseService::formatImage($data['image_list']);
-        return $this->outData(0, 'ok', $data);
+        $item = ProjectService::find($id);
+        $item['image_list'] = (array)BaseService::formatImage($item['image_list']);
+        $fileList = [];
+        foreach ($item['image_list'] as $k => $i) {
+            $_['name'] =  $k . '.png';
+            $_['url'] = $i;
+            $fileList[] = $_;
+        }
+        return $this->outData(0, 'ok', [
+            'item' => $item,
+            'fileList' => $fileList,
+        ]);
     }
 
 

@@ -13,8 +13,11 @@
 
 
 	<link rel="stylesheet" href="/css/common.css">
-	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/raise.main.css">
 
+	<style>
+		[v-cloak]{display: none!important;}
+	</style>
 </head>
 
 <body>
@@ -36,21 +39,21 @@
 							<div class="u-name">
 								<div class="photo-name-box"><img class="lazy-load"
 																								 v-bind:src="detail.portrait">
-									<span>{{ detail.username }}</span></div>
+									<span v-cloak>{{ detail.username }}</span></div>
 								<div class="tags">
 									<div class="u-subMark"> 个人求助</div>
 								</div>
 							</div>
 						</div>
 					</header>
-					<header class="g-box1"><h1 class="fmargT"> {{ detail.title }} </h1>
+					<header class="g-box1"><h1 class="fmargT" v-cloak> {{ detail.title }} </h1>
 						<div id="textaudio1" style="margin-top: 10px;display: none;"></div>
 					</header>
 					<section class="g-box2 box2 fmargT J-hot_process">
 						<ul class="moneylist">
-							<li><span>急需筹款(元)</span> <strong>{{ detail.need_amount }}</strong></li>
-							<li><span>已筹金额(元)</span> <strong>{{ detail.attain_amount }}</strong></li>
-							<li><span>帮助次数(次)</span> <strong>{{ detail.collect_count }}</strong></li>
+							<li><span>急需筹款(元)</span> <strong v-cloak>{{ detail.need_amount }}</strong></li>
+							<li><span>已筹金额(元)</span> <strong v-cloak>{{ detail.attain_amount }}</strong></li>
+							<li><span>帮助次数(次)</span> <strong v-cloak>{{ detail.collect_count }}</strong></li>
 						</ul>
 					</section>
 				</div>
@@ -61,7 +64,7 @@
 					<article>
 						<header>求助说明</header>
 						<section class="m-txt">
-							<div class="u-txt J-project-intro"  v-bind:class="[more_intro ? '' : 'folded']">
+							<div class="u-txt J-project-intro" v-cloak  v-bind:class="[more_intro ? '' : 'folded']">
 								{{ detail.introduction }}
 							</div>
 							<div id="go_more" v-on:click="more_intro = true" class="u-more J-view-more-intro dtstrackclick" data-dta="Unfold"
@@ -85,9 +88,12 @@
 					<article>
 						<section class="m-list J-project-img-list">
 							<ul class="clearfix">
+								<li v-for="image in detail.image_list">
 
-								<li v-for="image in detail.image_list"><a href="" class="fancybox" rel="fancybox" data-group_id="jdt">
-									<img class="lazy-load"  v-bind:src="image" alt=""> </a></li>
+									<a href="javascript:void (0)" class="fancybox" rel="fancybox" data-group_id="jdt">
+									<img class="lazy-load"  v-bind:src="image" v-on:click="previewImgInfo(image)" alt=""> </a>
+
+								</li>
 							</ul>
 						</section>
 					</article>
@@ -96,7 +102,7 @@
 			<div id="PiccCooperateVueReplaceDiv">             <!-- 血之源也在这里 -->         </div>
 			<section class="section sectionT">
 				<article class="fmarB30 g-box6 box2">
-					<header class="ifont-hui">已有<span class="cgreen">{{detail.prove_count}}</span>人证明情况属实</header>
+					<header class="ifont-hui">已有<span class="cgreen" v-cloak>{{detail.prove_count}}</span>人证明情况属实</header>
 					<section>
 						<ul class="zslist ">
 							<li  v-for="prove in detail.prove_lists" class="active  J-prove-avatar"><a href="javascript:;">
@@ -108,10 +114,10 @@
 					<section  v-for="(prove, index) in detail.prove_lists" v-if="index == 0" class="m-say">
 						<div  class="prove_content t1 active" role="tabpanel" id="tab0">
 							<div class="prove_header">
-								<strong class="prove_preson">{{prove.real_name}}</strong>
-								<span class="prove_relationg">{{prove.relation}}</span>
+								<strong class="prove_preson" v-cloak>{{prove.real_name}}</strong>
+								<span class="prove_relationg" v-cloak>{{prove.relation}}</span>
 								<span class="prove_realname">已实名</span></div>
-							<p class=" J-prove-msg">{{prove.introduce}}</p>
+							<p class=" J-prove-msg" v-cloak>{{prove.introduce}}</p>
 						</div>
 					</section>
 				</article>
@@ -130,14 +136,14 @@
 							<!-- <i class="peifu-icon"></i> --><a href="javascript:;">先行赔付</a></div>
 					</header>                <!-- 主态的非-1情况 及客态的10情况 -->
 					<section class="m-ziliao b_ziliao"><!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">患者：{{detail.patient}}</h6>
+						<div class="item style10"><h6 class="u-tit" v-cloak>患者：{{detail.patient}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>身份证明已审核</span></span></p>
 						</div><!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">所患疾病：{{detail.sickness}}</h6>
+						<div class="item style10"><h6 class="u-tit" v-cloak>所患疾病：{{detail.sickness}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>诊断证明已审核</span></span> <span
-									class="u-smal-item"><span class="fright"></span><span>诊断医院：{{detail.prove_hospital}}</span></span></p></div>
+									class="u-smal-item"><span class="fright" v-cloak></span><span>诊断医院：{{detail.prove_hospital}}</span></span></p></div>
 						<!-- 全部通过为10，主客体都在这里，是因为收款人可能是个人、医院、红十字机构 -->
-						<div class="item style10"><h6 class="u-tit">收款人：{{detail.payee}}</h6>
+						<div class="item style10"><h6 class="u-tit" v-cloak>收款人：{{detail.payee}}</h6>
 							<p class="u-smal"><span class="u-smal-item"><span class="fright"></span><span>身份证明已审核</span></span> <span
 									class="u-smal-item"><span class="fright"></span><span>关系证明已审核</span></span></p></div>
 					</section>                             <!-- 增信补充说明及发起人承诺书 -->                 <!-- 增信补充说明及发起人承诺书 -->
@@ -145,12 +151,12 @@
 						<div class="u-memo">
 							<div class="icon-m ibg1"></div>
 							<div class="txt"><p class="t1">家庭经济收入状况</p>
-								<p class="ifont-green"> 年收入:{{detail.annual_income}}万 / 金融资产:{{detail.financial_assets}}万 </p></div>
+								<p class="ifont-green" v-cloak> 年收入:{{detail.annual_income}}万 / 金融资产:{{detail.financial_assets}}万 </p></div>
 						</div>
 						<div class="u-memo">
 							<div class="icon-m ibg2"></div>
 							<div class="txt"><p class="t1">家庭房屋财产状况</p>
-								<p class="ifont-green"> 数量:{{detail.house_count}} / 价值:{{detail.house_value}}万 / 状态:{{detail.house_status}} </p></div>
+								<p class="ifont-green" v-cloak> 数量:{{detail.house_count}} / 价值:{{detail.house_value}}万 / 状态:{{detail.house_status}} </p></div>
 						</div>
 						<div class="u-memo">
 							<div class="icon-m ibg3"></div>
@@ -277,17 +283,36 @@
 	</div>
 	<footer class="projectRarseCustomer J-footer">
 		<div class="anotherTips J-anotherTips"> 紧急求助！治病救命不能等，伸出援手帮助患者</div>
-		<div class="footer-bottom"><a class="share-btn J-btn-share J-btn-share-maidian dtstrackclick" data-dta="V1_2shareto_b"
+		<div class="footer-bottom">
+			<a class="share-btn J-btn-share J-btn-share-maidian dtstrackclick" v-on:click="show_share=true" data-dta="V1_2shareto_b"
 																	href="javascript:;">1038</a>
 			<div class="btn-box"><a class="yellow-btn J-go-pay dtstrackclick" v-on:click="toDonate" >我要帮帮他</a></div>
 		</div>
 	</footer>
+	<div class="qsc-modal modal-share mod-share-new" id="mod-sick-share" tabindex="-1" aria-hidden="false"
+			 v-bind:style="{ display:show_share ? 'block' : 'none'}">
+		<a href="javascript:void(0);" v-on:click="show_share=false"  class="modal-share-btn-close"
+			 name="H5_Btn_Pop_WA_DetailedShare_Close"></a>
+		<div class="pop-share-wrap">
+			<div class="modal-share-wechat-desc" style="line-height: 60px;"> 点击右上角<span id="modal-share-wechat-icon"
+																																									class="modal-share-wechat-icon"></span>
+			</div>
+			<p style="font-size:18px;font-weight:700;color:#fff;line-height:60px;text-align: center;">帮他<span
+					style="color: #ffc900">转发</span>一下，能帮他更快筹到治病钱<br> 一次转发，一份功德</p></div>
+		<!-- <div class="pop-other-share-wrap">         <div class="other-share-title">其他分享</div>         <ul>             <li class="share-qrcode">                 <i></i>                 二维码             </li>             <li class="share-qq">                 <i></i>                 QQ             </li>             <li class="share-qq-zone">                 <i></i>                 QQ空间             </li>         </ul>     </div> -->
+	</div>
+
+
 </div>
 
 
 <script src="https://cdn.bootcss.com/vue/2.6.9/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/js-cookie/2.2.1/js.cookie.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+
+
+
 <script>
 	const app = new Vue({
 		el: '#app',
@@ -295,6 +320,7 @@
 			detail: {},
 			more_intro: false,
 			more_dynamic: false,
+      show_share: false,
 			project_id: 0,
 			order: {
 				list: [],
@@ -304,32 +330,71 @@
 			wx_url: ''
 		},
 		methods : {
-			async getBaseData () {
-				this.project_id = this.getRequest('id')
-				let res = await axios.get('api/project?id=' + this.project_id);
-				this.$nextTick(function () {
-					this.detail = res.data.data
-				})
-				this.moreOrder()
-				this.wxCodeUrl()
+			 getBaseData () {
+				 this.project_id = this.getRequest('id')
+				 const _this = this
+         $.get('api/project?id=' + this.project_id, function (res) {
+           _this.detail = res.data
+           $("title").text(res.data.title);
+         });
+				 this.moreOrder()
+				 this.wxCodeUrl()
+				 if(this.isWxClient()) {
+					 this.wxInit()
+				 }
 			},
-			async moreOrder () {
-				let orderRes = await axios.get('api/project/order?id=' + this.project_id + '&lastId=' + this.order.lastId);
-				if(orderRes.data.code === 0) {
-					let retData = orderRes.data.data
-					this.order.list = this.order.list.concat(retData.list)
-					this.order.lastId = retData.lastId
-					this.order.hasNext = retData.hasNext
-				}
+			wxInit () {
+        $.get('api/wechat/shareParam?url=' + location.href, function (res) {
+          wx.config (res.data);
+        });
+        const _this = this
+        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+          wx.updateAppMessageShareData({
+            title: _this.detail.title, // 分享标题
+            desc: _this.detail.introduction.substr(0, 100), // 分享描述
+            link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: location.origin +  _this.detail.image_list[0], // 分享图标
+            success: function(res) {
+              console.log(res)
+            }
+          })
+          wx.updateTimelineShareData({
+            title: _this.detail.title, // 分享标题
+            link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: location.origin +  _this.detail.image_list[0], // 分享图标
+            success: function(res) {
+								console.log(res)
+            }
+          })
+        });
+        wx.error(function(res){
+						console.log(res)
+        });
 			},
-			async wxCodeUrl () {
-				let ret = await axios.get('api/wechat/getWxUrl?id=' + this.project_id);
-				this.wx_url = ret.data.data;
-				console.log(ret.data)
-				console.log(this.wx_url)
+			isWxClient(){
+        const ua = window.navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == "micromessenger") {
+          return true;
+        } else {
+          return false;
+        }
+  		},
+			moreOrder () {
+			  const _this = this
+        $.get('api/project/order?id=' + this.project_id + '&lastId=' + this.order.lastId, function (res) {
+          if(res.code === 0) {
+            _this.order.list = _this.order.list.concat(res.data.list)
+            _this.order.lastId = res.data.lastId
+            _this.order.hasNext = res.data.hasNext
+          }
+        });
 			},
-
-
+			wxCodeUrl () {
+        const _this = this
+        $.get('api/wechat/getWxUrl?id=' + this.project_id, function (res) {
+          _this.wx_url = res.data;
+        });
+			},
 			toDonate () {
 			  const token = Cookies.get('tokenAuth')
 				if( token === undefined ||  token.length !== 32) {
@@ -364,7 +429,19 @@
 				if (scrollTop + windowHeight === scrollHeight && this.order.hasNext) {
 					this.moreOrder()
 				}
-			}
+			},
+      previewImgInfo (curUrl) {
+				let urls = [];
+        for (let i = 0; i < this.detail.image_list.length; i++) {
+          urls.push(location.origin + this.detail.image_list[i])
+				}
+        if(this.isWxClient()) {
+          wx.previewImage({
+            current: location.origin + curUrl, // 当前显示图片的http链接
+            urls: urls // 需要预览的图片http链接列表
+          });
+				}
+      }
 		},
 		created () {
 			this.getBaseData()
@@ -373,6 +450,14 @@
 			window.addEventListener('scroll', this.handleScroll)
 		}
 	}).$mount('#app');
+
+
+
+
+
+
+
+
 </script>
 </body>
 </html>

@@ -115,6 +115,7 @@ class Admin extends Base
         if(empty($data['user_id'])) {
             return $this->outData(104, '暂无新用户可添加,请新增用户');
         }
+        $data['is_pay'] = 1;
         OrderService::addOrder($data);
         return $this->outData(0, '新增成功', $data);
     }

@@ -11,6 +11,7 @@
 	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" href="/css/common.css">
 	<link rel="stylesheet" href="/css/pay.main.css">
+
 	<style type="text/css">.fancybox-margin {
 		margin-right: 0;
 	}</style>
@@ -23,7 +24,9 @@
 	}
 	.ls-pop-verify input {
 		caret-color: #61a951;
-	}</style>
+	}
+	[v-cloak]{display: none!important;}
+	</style>
 </head>
 <body>
 
@@ -32,8 +35,7 @@
 		<div class="paycontent">
 			<div id="publish-box" class="publish-box">
 				<div class="m-projinfo"><img class="u-avatar lazy-load"
-											 v-bind:src="detail.portrait"
-											 style="display: block;">
+											 v-bind:src="detail.portrait">
 					<div class="u-info">
 						<div class="u-name"><span class="u-nickname" v-cloak>{{detail.username}}</span> <span class="u-tips">项目发起人</span></div>
 						<div class="u-msg">谢谢你的爱心，大恩大德，永不能忘！🙏</div>
@@ -59,10 +61,10 @@
 						<div class="progress_box">
 							<div class="progress_bg"></div>
 							<div class="product_progress">
-								<div class="progress_green" style="width: 0%;"></div>
-								<span class="progress_num" style="left: 0%;">0%</span></div>
+								<div class="progress_green" v-bind:style="{width: exceed_pct + '%'}"></div>
+								<span class="progress_num" v-bind:style="{left: exceed_pct + '%'}" v-cloak>{{exceed_pct}}%</span></div>
 						</div>
-						<label class="progress_box_des">您的捐献额超越 <span class="progress_des_green">0%</span> 的用户</label></div>
+						<label class="progress_box_des">您的捐献额超越 <span class="progress_des_green" v-cloak>{{exceed_pct}}%</span> 的用户</label></div>
 				</div>              <!-- 爱心劵start -->
 				<section id="voucherBox"></section>             <!-- 爱心劵end -->
 				<!-- <div class="recommand-title">大病互助权益</div> -->
@@ -98,8 +100,8 @@
 </div>
 
 <script src="https://cdn.bootcss.com/vue/2.6.9/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
 <script src="https://cdn.bootcss.com/js-cookie/2.2.1/js.cookie.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script>
 	const app = new Vue({
@@ -111,21 +113,22 @@
 			state: false
 		},
 		methods : {
-			async getPayData () {
+			 getPayData () {
 				this.project_id = this.getRequest('id')
 				const token = this.getRequest('token')
         if(token !== undefined && token.length === 32) {
           Cookies.set('tokenAuth', token, { expires: 30, path: '/'});
 				}
-				let res = await axios.get('api/project/info?id=' + this.project_id);
-				this.$nextTick(function () {
-					this.detail = res.data.data
-				})
+				let _this = this
+        $.get('api/project/info?id=' + this.project_id, function (res) {
+          _this.detail = res.data.item
+        });
 			},
 
-      async getPayParam() {
-        let res = await axios.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value);
-				return res.data.data
+			getPayParam() {
+			  let param = {}
+
+        return param
       },
 			getRequest(key) {
 				const url = location.href;
@@ -146,23 +149,25 @@
 				this.state = !this.state
 			},
 			jsApiCall() {
-				const param = this.getPayParam()
-				WeixinJSBridge.invoke(
-						'getBrandWCPayRequest',
-						{'appId': param.appId,
-							'nonceStr':param.nonceStr,
-							'package':param.package,
-							'signType':param.signType,
-							'timeStamp':param.timeStamp,
-							'paySign':param.paySign
-						},
-						function (res) {
-							WeixinJSBridge.log(res.err_msg);
-							alert(res.err_code + res.err_desc + res.err_msg);
-						}
-				);
+        $.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value, function (res) {
+          const param = res.data;
+          WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            {
+              'appId': param.appId,
+              'nonceStr':param.nonceStr,
+              'package':param.package,
+              'signType':param.signType,
+              'timeStamp':param.timeStamp,
+              'paySign':param.paySign
+            },
+            function (res) {
+              WeixinJSBridge.log(res.err_msg);
+            }
+          );
+        });
 			},
-		 callPay() {
+			callPay() {
 			 if (typeof WeixinJSBridge == "undefined") {
 				 if (document.addEventListener) {
 					 document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
@@ -181,7 +186,28 @@
 		computed: {
 			total_value: function () {
 				return  (parseInt(this.money) > 0 ? parseInt(this.money):0)  + (this.state ? 3 : 0)
-			}
+			},
+      exceed_pct: function () {
+        const m = parseInt(this.money)
+				if(isNaN(m)) return 0;
+        if(m < 10) {
+          return m;
+        }else if(m <= 20) {
+				  return 20 + (m - 10) * 4 ;
+				}else if(m <= 50) {
+          return 60 + parseInt((m - 20) * 0.667)
+				}else if(m <= 100) {
+          return 80 + parseInt((m - 50) * 0.2)
+        }else if(m <= 500) {
+          return 90 + parseInt((m - 100) * 0.01)
+        }else if(m <= 1000) {
+          return 94 + parseInt((m - 100) * 0.005)
+        }else if(m <= 3000) {
+          return 98 + parseInt((m - 100) * 0.001)
+        } else {
+					return 100
+				}
+      },
 		}
 	}).$mount('#app');
 </script>
