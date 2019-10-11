@@ -108,9 +108,6 @@ class Admin extends Base
         if(empty($data['amount'] ?? '')) {
             return $this->outData(102, '价格不能为空');
         }
-        if(empty($data['encourage'] ?? [])) {
-            return $this->outData(103, '鼓励语不能为空');
-        }
         $data['user_id'] = $this->randomUser($data['project_id'], OrderService::TABLE_NAME);
         if(empty($data['user_id'])) {
             return $this->outData(104, '暂无新用户可添加,请新增用户');
