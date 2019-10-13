@@ -17,7 +17,7 @@ class DynamicService extends BaseService
     }
 
     public static function getByProject($id) {
-        $data = self::db()->where('project_id', $id)
+        $data = self::db()->where('project_id', $id)->orderBy('create_at', 'desc')
             ->get(self::TABLE_NAME, null, 'title,image_list,create_at');
         foreach ($data as $k => $v) {
             $data[$k]['image_list'] = (array)self::formatImage($v['image_list']);
