@@ -195,14 +195,14 @@
 								<div class="comment-box">                         <!-- 动态列表 -->
 									<ul class="commentlist news">
 										<li v-for="(dynamic, index) in detail.collect_dynamic"  v-bind:style="{ display: !more_dynamic && index > 0  ? 'none'  : 'block' }"  class="citem J-news-item" data-topicid="8778540">
-											<div class="phead"><a href="javascript:;"><img class="lazy-load"
+											<div class="phead"><a href="javascript:;"><img class="lazy-load" style="height: 30px"
 																																		 v-bind:src="detail.portrait"></a>
 											</div>
 											<div class="cominfo" style="margin-left: 40px;margin-top: -32px;"><h6><a href="javascript:;">{{detail.username}}</a></h6>
 												<p class="ctxt"><span style="color:#666">{{dynamic.title}}</span> <br></p>
 												<ul class="u-photolist flist clearfix">
 													<li v-for="image in dynamic.image_list"><a class="fancybox" rel="fancybox" data-group_id="feed8778540">
-														<img class="lazy-load" style="height: 30px"  v-bind:src="image" width="25%" alt=""> </a>
+														<img class="lazy-load"   v-bind:src="image" width="25%" alt=""> </a>
 													</li>
 												</ul>
 												<div class="citme"> {{dynamic.pre_day}} <span style="color:#43AC43">项目更新</span></div>
