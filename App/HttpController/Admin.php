@@ -113,7 +113,7 @@ class Admin extends Base
             return $this->outData(104, '暂无新用户可添加,请新增用户');
         }
         $data['is_pay'] = 1;
-        OrderService::addOrder($data);
+        OrderService::addOrder($data, rand(1, 2) == 1);
         return $this->outData(0, '新增成功', $data);
     }
 

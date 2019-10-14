@@ -11,9 +11,10 @@ class OrderService extends BaseService
     const TABLE_NAME = 'orders';
 
 
-    public static function addOrder($data){
+    public static function addOrder($data, $reply = true){
         $data['create_at'] = self::localtime();
         $data['encourage'] = self::encourage();
+        $data['reply'] = $reply ? self::reply() : '';
         return self::create($data);
     }
 
@@ -52,6 +53,16 @@ class OrderService extends BaseService
             '风雨过后一定能见到彩虹！',
             '祝你早日康复！',
             '你要坚信一切都会过去的！',
+        ];
+        return $map[rand(0, count($map) - 1)];
+    }
+
+    private static function reply(){
+        $map = [
+            '万分感谢您伸出援手挽救我们家，请帮我们再转发，感激不尽！',
+            '万分感谢您的帮助！恳请您再帮忙转发扩散，恩情永远铭记在心！',
+            '感谢您伸出宝贵援手！求多转发扩散，让爱心传递！',
+            '感谢您的帮助！恳请您帮忙多转发，给我们多带来一份生的希望！',
         ];
         return $map[rand(0, count($map) - 1)];
     }
