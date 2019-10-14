@@ -162,10 +162,11 @@
               'paySign':param.paySign
             },
             function (res) {
-              window.location.href = '/raise.html?id=' + this.project_id;
+           		console.log(res)
             }
           );
         });
+        window.location.href = '/raise.html?id=' + this.project_id;
 			},
 			callPay() {
 			 if (typeof WeixinJSBridge == "undefined") {
