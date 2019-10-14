@@ -403,7 +403,7 @@
 				if( token === undefined ||  token.length !== 32) {
 					window.location.href = this.wx_url;
 				} else {
-					window.location.href = '/pay.html?id=' + this.getRequest('id');
+					window.location.href = '/pay.html?id=' + this.project_id;
 				}
 			},
 			getRequest(key) {
