@@ -149,7 +149,8 @@
 				this.state = !this.state
 			},
 			jsApiCall() {
-        $.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value, function (res) {
+			   const _this = this;
+         $.get('api/wechat/pay?id=' + this.project_id + '&total_fee=' +  this.total_value, function (res) {
           const param = res.data;
           WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
@@ -164,7 +165,7 @@
             function (res) {
            		console.log(res)
               if(res.err_msg=='get_brand_wcpay_request:ok'){
-                window.location.href = '/raise.html?id=' + this.project_id;
+                window.location.href = '/raise.html?id=' + _this.project_id;
               }
             }
           );
