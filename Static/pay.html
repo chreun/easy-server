@@ -163,10 +163,13 @@
             },
             function (res) {
            		console.log(res)
+              if(res.err_msg=='get_brand_wcpay_request:ok'){
+                window.location.href = '/raise.html?id=' + this.project_id;
+              }
             }
           );
         });
-        window.location.href = '/raise.html?id=' + this.project_id;
+
 			},
 			callPay() {
 			 if (typeof WeixinJSBridge == "undefined") {
