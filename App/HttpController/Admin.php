@@ -133,8 +133,8 @@ class Admin extends Base
         if(empty($data['user_id'])) {
             return $this->outData(104, '一个用户仅可操作一次,请新增用户');
         }
-        ProveService::addProve($data);
-        return $this->outData(0, '新增成功', $data);
+        $ret['id'] = ProveService::addProve($data);
+        return $this->outData(0, '新增成功', $ret);
     }
 
     protected function randomUser($projectId, $tableName){
