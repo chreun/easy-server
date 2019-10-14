@@ -139,8 +139,8 @@ class Admin extends Base
 
     protected function randomUser($projectId, $tableName){
         $existUser = array_column(BaseService::db()->where('project_id', $projectId)
-            ->get($tableName, null, 'user_id'), 'user_id');
-
+            ->orderBy('id', 'desc')
+            ->get($tableName, 100, 'user_id'), 'user_id');
 
         $model = UserService::db()->where('user_type', UserService::USER_TYPE_VIRTUAL);
         if($existUser) {
