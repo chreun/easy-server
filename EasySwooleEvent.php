@@ -9,7 +9,9 @@
 namespace EasySwoole\EasySwoole;
 
 
+use App\Cron\AddOrder;
 use App\Process\HotReload;
+use EasySwoole\EasySwoole\Crontab\Crontab;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
@@ -57,6 +59,7 @@ class EasySwooleEvent implements Event
             $swooleServer = ServerManager::getInstance()->getSwooleServer();
             $swooleServer->addProcess((new HotReload('HotReload', ['disableInotify' => false]))->getProcess());
         }
+        //Crontab::getInstance()->addTask(AddOrder::class);
     }
 
     public static function onRequest(Request $request, Response $response): bool

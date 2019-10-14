@@ -16,7 +16,7 @@ class BaseService
 {
     const TABLE_NAME = '';
     const PRIMARY_NAME = 'id';
-    const PAGE_SIZE = 15;
+    const PAGE_SIZE = 50;
 
 
     const STATE_OK = 1;
