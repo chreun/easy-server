@@ -91,7 +91,7 @@
 								<li v-for="image in detail.image_list">
 
 									<a href="javascript:void (0)" class="fancybox" rel="fancybox" data-group_id="jdt">
-									<img class="lazy-load"  v-bind:src="image" v-on:click="previewImgInfo(image)" alt=""> </a>
+									<img class="lazy-load"  v-bind:src="image" v-on:click="previewImgInfo(image, 0)" alt=""> </a>
 
 								</li>
 							</ul>
@@ -202,7 +202,7 @@
 												<p class="ctxt"><span style="color:#666">{{dynamic.title}}</span> <br></p>
 												<ul class="u-photolist flist clearfix">
 													<li v-for="image in dynamic.image_list"><a class="fancybox" rel="fancybox" data-group_id="feed8778540">
-														<img class="lazy-load"   v-bind:src="image" width="25%" alt=""> </a>
+														<img class="lazy-load"  v-on:click="previewImgInfo(image, 1)"  v-bind:src="image" width="25%" alt=""> </a>
 													</li>
 												</ul>
 												<div class="citme"> {{dynamic.pre_day}} <span style="color:#43AC43">项目更新</span></div>
@@ -433,10 +433,19 @@
 					this.moreOrder()
 				}
 			},
-      previewImgInfo (curUrl) {
+      previewImgInfo (curUrl, type) {
 				let urls = [];
-        for (let i = 0; i < this.detail.image_list.length; i++) {
-          urls.push(location.origin + this.detail.image_list[i])
+				if(type > 0) {
+          for (let j = 0; j < this.detail.collect_dynamic.length; j++) {
+						const dynamic = this.detail.collect_dynamic[j]
+            for (let k = 0; k < dynamic.image_list.length; k++) {
+              urls.push(location.origin + dynamic[k])
+            }
+          }
+				} else {
+          for (let i = 0; i < this.detail.image_list.length; i++) {
+            urls.push(location.origin + this.detail.image_list[i])
+          }
 				}
         if(this.isWxClient()) {
           wx.previewImage({
