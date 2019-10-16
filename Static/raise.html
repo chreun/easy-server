@@ -439,7 +439,7 @@
           for (let j = 0; j < this.detail.collect_dynamic.length; j++) {
 						const dynamic = this.detail.collect_dynamic[j]
             for (let k = 0; k < dynamic.image_list.length; k++) {
-              urls.push(location.origin + dynamic[k])
+              urls.push(location.origin + dynamic.image_list[k])
             }
           }
 				} else {
