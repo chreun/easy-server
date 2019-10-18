@@ -10,6 +10,7 @@ use App\Service\ProjectService;
 use App\Service\ProveService;
 use App\Service\SysConfService;
 use App\Service\UserService;
+use EasySwoole\Log\Logger;
 
 class Admin extends Base
 {
@@ -75,16 +76,69 @@ class Admin extends Base
             return $this->outData(102, '请上传头像');
         }
         if(empty($data['image_list'] ?? [])) {
-            return $this->outData(103, '请上传证明图片');
+           // return $this->outData(103, '请上传证明图片');
         }
-        $userId = $data['id'] ?? 0;
+        $projectId = $data['id'] ?? 0;
         unset($data['id']);
-        if($userId > 0) {
-            ProjectService::save($userId, $data);
+        if($projectId > 0) {
+            ProjectService::save($projectId, $data);
         } else {
-            $userId =  ProjectService::addProject($data);
+            $projectId =  ProjectService::addProject($data);
+
+            $totalDay = 5 * intval($data['need_amount']  / 100000);
+            if($totalDay == 0) $totalDay = 5;
+
+            $dynamic['project_id'] = $projectId;
+            $dynamic['title'] = '目标金额' . $data['need_amount'] . '元';
+            $dynamic['create_at'] = date('Y-m-d 09:15:00', time() - $totalDay * 86400);
+            DynamicService::addDynamic($dynamic);
+            $totalAmount = 0;
+
+            $timeStamp = strtotime('today') - $totalDay * 86400 + 9 * 3600 + rand(1, 3600);
+            $curDay = 1;
+            $oneThree = intval($data['need_amount'] / 3);
+            $orderArr = [];
+            do {
+                $arr40 = [1, 2, 3, 5, 10, 15, 20];
+                $arr95 = [30, 50, 60, 80];
+                $arr99 = [100, 200];
+                $rand = rand(1, 100);
+                if($rand <= 60) {
+                    $insertAmount = $arr40[array_rand($arr40)];
+                }elseif ($rand<= 80){
+                    $insertAmount = $arr95[array_rand($arr95)];
+                } elseif ($rand<= 95) {
+                    $insertAmount = $arr99[array_rand($arr99)];
+                } elseif ($rand<= 99) {
+                    $insertAmount = 500;
+                } else {
+                    $insertAmount = 1000;
+                }
+                $order['project_id'] = $projectId;
+                $order['amount'] = $insertAmount;
+                $order['user_id'] = $this->randomUser($projectId, OrderService::TABLE_NAME);
+                $order['is_pay'] = 1;
+                $order['create_at'] = date('Y-m-d H:i:s', $timeStamp);
+                $order['reply'] = rand(1, 2) == 1 ? OrderService::reply() : '';
+                $order['encourage'] = OrderService::encourage();
+                $orderArr[] = $order;
+                if($totalAmount > intval(  $oneThree / $totalDay * $curDay)) {
+                    $curDay++;
+                    $timeStamp = strtotime(date('Y-m-d', $timeStamp)) + 86400 + 9*3600 + rand(1, 3600);
+                } else {
+                    $timeStamp += rand(60, 600);
+                }
+                if(count($orderArr) >= 1000) {
+                    OrderService::addOrderArr($orderArr);
+                    $orderArr = [];
+                }
+                $totalAmount += $insertAmount;
+            } while($totalAmount <  $oneThree);
+            if($orderArr) {
+                OrderService::addOrderArr($orderArr);
+            }
         }
-        return $this->outData(0, '新增成功', ['user_id' => $userId]);
+        return $this->outData(0, '新增成功', ['id' => $projectId]);
     }
 
     public function dynamicAdd(){

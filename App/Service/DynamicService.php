@@ -12,7 +12,7 @@ class DynamicService extends BaseService
 
 
     public static function addDynamic($data){
-        $data['create_at'] = self::localtime();
+        $data['create_at'] = $data['create_at'] ?? self::localtime();
         return self::create($data);
     }
 

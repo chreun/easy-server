@@ -1747,4 +1747,9 @@ class Mysqli
         }
         unset($this->coroutineMysqlClient);
     }
+
+    public function runSql($sql)
+    {
+        return $this->getMysqlClient()->query($sql);
+    }
 }

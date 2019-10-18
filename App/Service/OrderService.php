@@ -12,11 +12,31 @@ class OrderService extends BaseService
 
 
     public static function addOrder($data, $reply = true){
-        $data['create_at'] = self::localtime();
+        $data['create_at'] = $data['create_at'] ?? self::localtime();
         $data['encourage'] = self::encourage();
         $data['reply'] = $reply ? self::reply() : '';
         return self::create($data);
     }
+
+    public static function addOrderArr($data){
+        if(!is_array($data[0] ?? null)) {
+            return false;
+        }
+        $sql = 'insert into orders(' .implode(',', array_map(function ($v) {
+            return '`' . $v . '`';
+        }, array_keys($data[0]))) . ') values ';
+
+        foreach ($data as $row) {
+            $sql .= '(' .implode(',', array_map(function ($v){
+                return "'" . $v . "'";
+            }, $row)) . '),';
+        }
+        $sql = rtrim($sql, ',');
+        return self::db()->runSql($sql);
+    }
+
+
+
 
     public static function getByProject($id) {
         return self::db()->where('project_id', $id)
@@ -42,7 +62,7 @@ class OrderService extends BaseService
     }
 
 
-    private static function encourage(){
+    public static function encourage(){
         $map = [
             '相信明天会更好！',
             '不放弃就一定有奇迹！',
@@ -57,7 +77,7 @@ class OrderService extends BaseService
         return $map[rand(0, count($map) - 1)];
     }
 
-    private static function reply(){
+    public static function reply(){
         $map = [
             '万分感谢您伸出援手挽救我们家，请帮我们再转发，感激不尽！',
             '万分感谢您的帮助！恳请您再帮忙转发扩散，恩情永远铭记在心！',
